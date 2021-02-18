@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
+
 import Header from "./components/Header/Header";
 import LoginPage from "./pages/Login/Login.page";
+import AccountPage from "./pages/Account/Accout.page";
+import ProjectsPage from "./pages/Projects/Projects.page";
+
 import { useAuth } from "./context/auth-context";
-import Account from "./pages/Account/Accout.page";
 import { useCreateUserData } from "./hooks/mutations/useCreateUserData";
 
 function App() {
@@ -23,7 +26,10 @@ function App() {
 			<Header />
 			<Switch>
 				<Route path='/account'>
-					<Account />
+					<AccountPage />
+				</Route>
+				<Route path='/projects'>
+					<ProjectsPage />
 				</Route>
 			</Switch>
 		</div>
