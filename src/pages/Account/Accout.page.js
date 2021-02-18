@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../context/auth-context";
 import { useUser } from "../../hooks/queries/useUser";
 import { useUpdateUserData } from "../../hooks/mutations/useUpdateUserData";
 
 const Account = () => {
-	const { user } = useAuth();
-	const { isLoading, error, data } = useUser(user.user.uid);
+	const { isLoading, error, data } = useUser();
 	const updateUserMutation = useUpdateUserData();
 	const [name, setName] = useState("");
 	const [age, setAge] = useState("25");
