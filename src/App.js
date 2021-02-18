@@ -5,6 +5,7 @@ import Header from "./components/Header/Header";
 import LoginPage from "./pages/Login/Login.page";
 import AccountPage from "./pages/Account/Accout.page";
 import ProjectsPage from "./pages/Projects/Projects.page";
+import ProjectPage from "./pages/Project/Project.page";
 
 import { useAuth } from "./context/auth-context";
 import { useCreateUserData } from "./hooks/mutations/useCreateUserData";
@@ -30,6 +31,9 @@ function App() {
 				</Route>
 				<Route path='/projects'>
 					<ProjectsPage />
+				</Route>
+				<Route path='/project/:projectId'>
+					<ProjectPage />
 				</Route>
 			</Switch>
 		</div>

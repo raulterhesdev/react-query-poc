@@ -45,10 +45,7 @@ export const createProject = (data) => {
 	updates["/projects/" + newKey] = dataForProjects;
 	updates["/project/" + newKey] = dataForFullProject;
 
-	const test = firebase.database().ref().update(updates);
-	console.log(test);
-
-	return dataForProjects;
+	firebase.database().ref().update(updates);
 };
 
 export const getProjects = () => {
@@ -65,6 +62,17 @@ export const getProjects = () => {
 				}
 			}
 			return data;
+		})
+		.catch((error) => Promise.reject(error));
+};
+
+export const getProject = (projectId) => {
+	return firebase
+		.database()
+		.ref(`/project/${projectId}`)
+		.once("value")
+		.then((snapshot) => {
+			return snapshot.val();
 		})
 		.catch((error) => Promise.reject(error));
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import AddProject from "./components/AddProject";
 import { useProjects } from "../../hooks/queries/useProjects";
+import { Link } from "react-router-dom";
 
 const Project = () => {
 	const { data, isLoading, error } = useProjects();
@@ -16,9 +17,10 @@ const Project = () => {
 			) : (
 				<div>
 					{data.map((project) => (
-						<div>
+						<div key={project.id}>
 							<p>Name: {project.name}</p>
 							<p>Description:{project.description}</p>
+							<Link to={`/project/${project.id}`}>Go To</Link>
 							<hr />
 						</div>
 					))}
