@@ -8,12 +8,9 @@ export const useCreateTask = () => {
 	const { user } = useAuth();
 	const uid = user.user.uid;
 
-	return useMutation(
-		(data) => createTask({ ...data, createtorUid: uid })
-		// , {
-		// 	onSuccess: () => {
-		// 		queryClient.invalidateQueries("projects");
-		// 	},
-		// }
-	);
+	return useMutation((data) => createTask({ ...data, creatorUid: uid }), {
+		onSuccess: (projectId) => {
+			queryClient.invalidateQueries(["tasks", projectId]);
+		},
+	});
 };

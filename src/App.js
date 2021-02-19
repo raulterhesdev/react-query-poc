@@ -6,6 +6,7 @@ import LoginPage from "./pages/Login/Login.page";
 import AccountPage from "./pages/Account/Accout.page";
 import ProjectsPage from "./pages/Projects/Projects.page";
 import ProjectPage from "./pages/Project/Project.page";
+import TaskPage from "./pages/Task/Task.page";
 
 import { useAuth } from "./context/auth-context";
 import { useCreateUserData } from "./hooks/mutations/useCreateUserData";
@@ -34,6 +35,9 @@ function App() {
 				</Route>
 				<Route path='/project/:projectId'>
 					<ProjectPage />
+				</Route>
+				<Route path='/tasks/:taskId'>
+					<TaskPage />
 				</Route>
 			</Switch>
 		</div>

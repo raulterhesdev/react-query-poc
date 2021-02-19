@@ -27,8 +27,6 @@ const Project = (props) => {
 		updateProjectMutation.mutate({ ...data, description });
 	};
 
-	console.log(projectTasksQuery.data);
-
 	return (
 		<div>
 			<h1>Project:</h1>
@@ -58,8 +56,8 @@ const Project = (props) => {
 								page
 							</p>
 						) : (
-							projectTasksQuery.data.map((task) => (
-								<div>
+							projectTasksQuery.data?.map((task) => (
+								<div key={task.id}>
 									<p>{task.name}</p>
 									<Link to={`/tasks/${task.id}`}>Go To</Link>
 								</div>

@@ -4,8 +4,9 @@ import { deleteProject } from "../../utils/firebaseAPI";
 export const useDeleteProject = () => {
 	const queryClient = useQueryClient();
 	return useMutation(deleteProject, {
-		onSuccess: () => {
+		onSuccess: (projectId) => {
 			queryClient.invalidateQueries("projects");
+			queryClient.invalidateQueries(["project", projectId]);
 		},
 	});
 };

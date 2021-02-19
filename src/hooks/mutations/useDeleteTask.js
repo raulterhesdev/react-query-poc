@@ -1,12 +1,11 @@
 import { useMutation, useQueryClient } from "react-query";
-import { updateProject } from "../../utils/firebaseAPI";
+import { deleteTask } from "../../utils/firebaseAPI";
 
-export const useUpdateProject = () => {
+export const useDeleteTask = () => {
 	const queryClient = useQueryClient();
-	return useMutation(updateProject, {
+	return useMutation(deleteTask, {
 		onSuccess: (projectId) => {
 			queryClient.invalidateQueries(["project", projectId]);
-			queryClient.invalidateQueries("projects");
 		},
 	});
 };

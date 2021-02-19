@@ -45,7 +45,7 @@ export const createUser = ({ uid, email }) => {
 	const updates = {};
 	updates["/users/" + uid] = data;
 
-	addUpdatesToFirebase(updates);
+	return addUpdatesToFirebase(updates);
 };
 
 export const updateUser = ({ uid, email, role, name, age }) => {
@@ -54,7 +54,7 @@ export const updateUser = ({ uid, email, role, name, age }) => {
 	const updates = {};
 	updates["/users/" + uid] = data;
 
-	addUpdatesToFirebase(updates).then(() => {
+	return addUpdatesToFirebase(updates).then(() => {
 		return data.uid;
 	});
 };
@@ -79,7 +79,7 @@ export const createProject = (data) => {
 	updates["/projects/" + newKey] = dataForProjects;
 	updates["/project/" + newKey] = dataForFullProject;
 
-	addUpdatesToFirebase(updates);
+	return addUpdatesToFirebase(updates);
 };
 
 export const getProjects = () => {
@@ -94,8 +94,9 @@ export const deleteProject = (projectId) => {
 	const updates = {};
 	updates["/projects/" + projectId] = null;
 	updates["/project/" + projectId] = null;
+	updates["/tasks/" + projectId] = null;
 
-	addUpdatesToFirebase(updates)
+	return addUpdatesToFirebase(updates)
 		.then(() => {
 			return projectId;
 		})
@@ -115,7 +116,7 @@ export const updateProject = ({
 	updates["/projects/" + id] = projectsUpdateData;
 	updates["/project/" + id] = projectUpdateData;
 
-	addUpdatesToFirebase(updates).then(() => {
+	return addUpdatesToFirebase(updates).then(() => {
 		return id;
 	});
 };
@@ -129,10 +130,37 @@ export const createTask = (data) => {
 
 	const updates = {};
 	updates[`/tasks/${allData.projectId}/${newKey}`] = allData;
+	updates[`/task/${newKey}`] = allData;
 
-	addUpdatesToFirebase(updates);
+	return addUpdatesToFirebase(updates).then(() => allData.projectId);
 };
 
 export const getProjectTasks = (projectId) => {
 	return getArrayFromFirebase(`/tasks/${projectId}`);
+};
+
+export const getTask = (taskId) => {
+	return getSingleValueFromFirebase(`/task/${taskId}`);
+};
+
+export const deleteTask = ({ projectId, taskId }) => {
+	const updates = {};
+	updates[`/tasks/${projectId}/${taskId}`] = {};
+	updates[`/task/${taskId}`] = {};
+
+	return addUpdatesToFirebase(updates)
+		.then(() => {
+			return projectId;
+		})
+		.catch((error) => Promise.reject(error));
+};
+
+export const updateTask = (data) => {
+	const updates = {};
+	updates[`/tasks/${data.projectId}/${data.id}`] = data;
+	updates[`/task/${data.id}`] = data;
+
+	return addUpdatesToFirebase(updates).then(() => {
+		return data.projectId;
+	});
 };
