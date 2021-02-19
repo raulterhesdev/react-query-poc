@@ -20,7 +20,6 @@ const AddProject = () => {
 				value={description}
 				onChange={(e) => setDescription(e.currentTarget.value)}
 				placeholder='Description'
-				rows={10}
 				cols={30}
 			/>
 			<button onClick={submitProject}>Add Project</button>

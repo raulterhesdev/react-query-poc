@@ -3,6 +3,7 @@ import AddProject from "./components/AddProject";
 import { useProjects } from "../../hooks/queries/useProjects";
 import { useUser } from "../../hooks/queries/useUser";
 import { Link } from "react-router-dom";
+import AddTask from "./components/AddTask";
 
 const Project = () => {
 	const { data, isLoading, error } = useProjects();
@@ -11,6 +12,9 @@ const Project = () => {
 	return (
 		<div>
 			{userData?.role === "TL" ? <AddProject /> : null}
+
+			<AddTask />
+
 			{isLoading ? (
 				<p>Loading...</p>
 			) : error ? (
