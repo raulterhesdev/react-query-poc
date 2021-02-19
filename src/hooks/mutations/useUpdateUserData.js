@@ -4,8 +4,8 @@ import { updateUser } from "../../utils/firebaseAPI";
 export const useUpdateUserData = () => {
 	const queryClient = useQueryClient();
 	return useMutation(updateUser, {
-		onSuccess: (data) => {
-			queryClient.invalidateQueries(["users", data.uid]);
+		onSuccess: (uid) => {
+			queryClient.invalidateQueries(["users", uid]);
 		},
 	});
 };

@@ -7,8 +7,6 @@ export const createUser = ({ uid, email }) => {
 	updates["/users/" + uid] = data;
 
 	firebase.database().ref().update(updates);
-
-	return data;
 };
 
 export const updateUser = ({ uid, email, role, name, age }) => {
@@ -17,9 +15,14 @@ export const updateUser = ({ uid, email, role, name, age }) => {
 	const updates = {};
 	updates["/users/" + uid] = data;
 
-	firebase.database().ref().update(updates);
-
-	return data;
+	firebase
+		.database()
+		.ref()
+		.update(updates)
+		.then(() => {
+			return data.uid;
+		})
+		.catch((error) => Promise.reject(error));
 };
 
 export const getUser = (uid) => {
@@ -45,7 +48,11 @@ export const createProject = (data) => {
 	updates["/projects/" + newKey] = dataForProjects;
 	updates["/project/" + newKey] = dataForFullProject;
 
-	firebase.database().ref().update(updates);
+	firebase
+		.database()
+		.ref()
+		.update(updates)
+		.catch((error) => Promise.reject(error));
 };
 
 export const getProjects = () => {
@@ -73,6 +80,44 @@ export const getProject = (projectId) => {
 		.once("value")
 		.then((snapshot) => {
 			return snapshot.val();
+		})
+		.catch((error) => Promise.reject(error));
+};
+
+export const deleteProject = (projectId) => {
+	const updates = {};
+	updates["/projects/" + projectId] = null;
+	updates["/project/" + projectId] = null;
+
+	firebase
+		.database()
+		.ref()
+		.update(updates)
+		.then(() => {
+			return projectId;
+		})
+		.catch((error) => Promise.reject(error));
+};
+
+export const updateProject = ({
+	description,
+	id,
+	name,
+	numberOfTasks,
+	ownerUid,
+}) => {
+	const projectsUpdateData = { description, id, name, ownerUid };
+	const projectUpdateData = { description, id, name, ownerUid, numberOfTasks };
+	const updates = {};
+	updates["/projects/" + id] = projectsUpdateData;
+	updates["/project/" + id] = projectUpdateData;
+
+	firebase
+		.database()
+		.ref()
+		.update(updates)
+		.then(() => {
+			return id;
 		})
 		.catch((error) => Promise.reject(error));
 };
