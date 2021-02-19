@@ -1,34 +1,18 @@
 import firebase from "./setup/firebase";
 
-export const createUser = ({ uid, email }) => {
-	const data = { uid, email, role: "TM" };
-
-	const updates = {};
-	updates["/users/" + uid] = data;
-
-	firebase.database().ref().update(updates);
-};
-
-export const updateUser = ({ uid, email, role, name, age }) => {
-	const data = { uid, email, role, name, age };
-
-	const updates = {};
-	updates["/users/" + uid] = data;
-
-	firebase
+// Utilities
+const addUpdatesToFirebase = (updates) => {
+	return firebase
 		.database()
 		.ref()
 		.update(updates)
-		.then(() => {
-			return data.uid;
-		})
 		.catch((error) => Promise.reject(error));
 };
 
-export const getUser = (uid) => {
+const getSingleValueFromFirebase = (path) => {
 	return firebase
 		.database()
-		.ref(`/users/${uid}`)
+		.ref(path)
 		.once("value")
 		.then((snapshot) => {
 			return snapshot.val();
@@ -36,29 +20,10 @@ export const getUser = (uid) => {
 		.catch((error) => Promise.reject(error));
 };
 
-export const createProject = (data) => {
-	const dataForProjects = { ...data };
-	const dataForFullProject = { ...data, numberOfTasks: 0 };
-
-	const newKey = firebase.database().ref().child("projects").push().key;
-
-	dataForProjects.id = dataForFullProject.id = newKey;
-
-	const updates = {};
-	updates["/projects/" + newKey] = dataForProjects;
-	updates["/project/" + newKey] = dataForFullProject;
-
-	firebase
-		.database()
-		.ref()
-		.update(updates)
-		.catch((error) => Promise.reject(error));
-};
-
-export const getProjects = () => {
+const getArrayFromFirebase = (path) => {
 	return firebase
 		.database()
-		.ref("/projects")
+		.ref(path)
 		.once("value")
 		.then((snapshot) => {
 			const data = [];
@@ -73,15 +38,56 @@ export const getProjects = () => {
 		.catch((error) => Promise.reject(error));
 };
 
+// API interaction
+export const createUser = ({ uid, email }) => {
+	const data = { uid, email, role: "TM" };
+
+	const updates = {};
+	updates["/users/" + uid] = data;
+
+	addUpdatesToFirebase(updates);
+};
+
+export const updateUser = ({ uid, email, role, name, age }) => {
+	const data = { uid, email, role, name, age };
+
+	const updates = {};
+	updates["/users/" + uid] = data;
+
+	addUpdatesToFirebase(updates).then(() => {
+		return data.uid;
+	});
+};
+
+export const getUser = (uid) => {
+	return getSingleValueFromFirebase(`/users/${uid}`);
+};
+
+export const getUsers = () => {
+	return getArrayFromFirebase("/users");
+};
+
+export const createProject = (data) => {
+	const dataForProjects = { ...data };
+	const dataForFullProject = { ...data, tasks: {} };
+
+	const newKey = firebase.database().ref().child("projects").push().key;
+
+	dataForProjects.id = dataForFullProject.id = newKey;
+
+	const updates = {};
+	updates["/projects/" + newKey] = dataForProjects;
+	updates["/project/" + newKey] = dataForFullProject;
+
+	addUpdatesToFirebase(updates);
+};
+
+export const getProjects = () => {
+	return getArrayFromFirebase("/projects");
+};
+
 export const getProject = (projectId) => {
-	return firebase
-		.database()
-		.ref(`/project/${projectId}`)
-		.once("value")
-		.then((snapshot) => {
-			return snapshot.val();
-		})
-		.catch((error) => Promise.reject(error));
+	return getSingleValueFromFirebase(`/project/${projectId}`);
 };
 
 export const deleteProject = (projectId) => {
@@ -89,10 +95,7 @@ export const deleteProject = (projectId) => {
 	updates["/projects/" + projectId] = null;
 	updates["/project/" + projectId] = null;
 
-	firebase
-		.database()
-		.ref()
-		.update(updates)
+	addUpdatesToFirebase(updates)
 		.then(() => {
 			return projectId;
 		})
@@ -112,12 +115,24 @@ export const updateProject = ({
 	updates["/projects/" + id] = projectsUpdateData;
 	updates["/project/" + id] = projectUpdateData;
 
-	firebase
-		.database()
-		.ref()
-		.update(updates)
-		.then(() => {
-			return id;
-		})
-		.catch((error) => Promise.reject(error));
+	addUpdatesToFirebase(updates).then(() => {
+		return id;
+	});
+};
+
+export const createTask = (data) => {
+	const allData = { ...data, state: "Initialized" };
+
+	const newKey = firebase.database().ref().child("projects").push().key;
+
+	allData.id = newKey;
+
+	const updates = {};
+	updates[`/tasks/${allData.projectId}/${newKey}`] = allData;
+
+	addUpdatesToFirebase(updates);
+};
+
+export const getProjectTasks = (projectId) => {
+	return getArrayFromFirebase(`/tasks/${projectId}`);
 };
