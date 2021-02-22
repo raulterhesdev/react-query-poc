@@ -11,6 +11,7 @@ import TasksPage from "./pages/Tasks/Tasks.page";
 
 import { useAuth } from "./context/auth-context";
 import { useCreateUserData } from "./hooks/mutations/useCreateUserData";
+import Home from "./pages/Home/Home.page";
 
 function App() {
 	const { user } = useAuth();
@@ -28,20 +29,23 @@ function App() {
 		<div>
 			<Header />
 			<Switch>
-				<Route path='/account'>
+				<Route path='/' exact>
+					<Home />
+				</Route>
+				<Route path='/account' exact>
 					<AccountPage />
 				</Route>
 				<Route path='/projects' exact>
 					<ProjectsPage />
+				</Route>
+				<Route path='/tasks' exact>
+					<TasksPage />
 				</Route>
 				<Route path='/project/:projectId'>
 					<ProjectPage />
 				</Route>
 				<Route path='/tasks/:taskId'>
 					<TaskPage />
-				</Route>
-				<Route path='/tasks' exact>
-					<TasksPage />
 				</Route>
 			</Switch>
 		</div>
