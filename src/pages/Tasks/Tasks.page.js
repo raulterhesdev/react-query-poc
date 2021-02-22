@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const Tasks = () => {
 	const { isLoading, data, error } = useTasks();
-	console.log(data);
 	return (
 		<div>
 			{isLoading ? (
@@ -16,7 +15,7 @@ const Tasks = () => {
 			) : (
 				<div>
 					{data.map((task) => (
-						<div>
+						<div key={task.id}>
 							<span>{task.name}</span>
 							<Link to={`/tasks/${task.id}`}>Go To</Link>
 						</div>
