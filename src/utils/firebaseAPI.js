@@ -39,6 +39,29 @@ const getArrayFromFirebase = (path) => {
 		.catch((error) => Promise.reject(error));
 };
 
+const getNestedArrayFromFirebase = (path) => {
+	return firebase
+		.database()
+		.ref(path)
+		.once("value")
+		.then((snapshot) => {
+			const data = [];
+			for (const key in snapshot.val()) {
+				if (snapshot.val().hasOwnProperty(key)) {
+					const element = snapshot.val()[key];
+					for (const elementKey in element) {
+						if (element.hasOwnProperty(elementKey)) {
+							const subElement = element[elementKey];
+							data.push(subElement);
+						}
+					}
+				}
+			}
+			return data;
+		})
+		.catch((error) => Promise.reject(error));
+};
+
 const getCurrentDate = () => moment().format("MMMM Do YYYY");
 
 // API interaction
@@ -174,6 +197,10 @@ export const createTask = (data) => {
 
 export const getProjectTasks = (projectId) => {
 	return getArrayFromFirebase(`/tasks/${projectId}`);
+};
+
+export const getTasks = () => {
+	return getNestedArrayFromFirebase("/tasks");
 };
 
 export const getTask = (taskId) => {

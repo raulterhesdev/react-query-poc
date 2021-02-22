@@ -6,6 +6,7 @@ export const useDeleteTask = () => {
 	return useMutation(deleteTask, {
 		onSuccess: ({ projectId, taskId }) => {
 			queryClient.invalidateQueries(["project tasks", projectId]);
+			queryClient.invalidateQueries("tasks");
 			queryClient.removeQueries(["tasks", taskId]);
 		},
 	});

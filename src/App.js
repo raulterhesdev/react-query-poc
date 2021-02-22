@@ -7,6 +7,7 @@ import AccountPage from "./pages/Account/Accout.page";
 import ProjectsPage from "./pages/Projects/Projects.page";
 import ProjectPage from "./pages/Project/Project.page";
 import TaskPage from "./pages/Task/Task.page";
+import TasksPage from "./pages/Tasks/Tasks.page";
 
 import { useAuth } from "./context/auth-context";
 import { useCreateUserData } from "./hooks/mutations/useCreateUserData";
@@ -30,7 +31,7 @@ function App() {
 				<Route path='/account'>
 					<AccountPage />
 				</Route>
-				<Route path='/projects'>
+				<Route path='/projects' exact>
 					<ProjectsPage />
 				</Route>
 				<Route path='/project/:projectId'>
@@ -38,6 +39,9 @@ function App() {
 				</Route>
 				<Route path='/tasks/:taskId'>
 					<TaskPage />
+				</Route>
+				<Route path='/tasks' exact>
+					<TasksPage />
 				</Route>
 			</Switch>
 		</div>

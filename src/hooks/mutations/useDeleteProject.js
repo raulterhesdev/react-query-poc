@@ -7,6 +7,8 @@ export const useDeleteProject = () => {
 		onSuccess: (projectId) => {
 			queryClient.invalidateQueries("projects");
 			queryClient.removeQueries(["project", projectId]);
+			queryClient.removeQueries(["project tasks", projectId]);
+			queryClient.invalidateQueries("tasks");
 		},
 	});
 };

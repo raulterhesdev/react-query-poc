@@ -11,6 +11,7 @@ export const useCreateTask = () => {
 	return useMutation((data) => createTask({ ...data, creatorUid: uid }), {
 		onSuccess: (projectId) => {
 			queryClient.invalidateQueries(["tasks", projectId]);
+			queryClient.invalidateQueries("tasks");
 		},
 	});
 };

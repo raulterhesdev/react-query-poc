@@ -6,6 +6,7 @@ export const useUpdateTask = () => {
 	return useMutation(updateTask, {
 		onSuccess: (data) => {
 			queryClient.invalidateQueries(["project tasks", data.projectId]);
+			queryClient.invalidateQueries("tasks");
 			queryClient.setQueryData(["tasks", data.id], data);
 		},
 	});

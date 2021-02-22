@@ -6,7 +6,6 @@ export const useUpdateProject = () => {
 	return useMutation(updateProject, {
 		onSuccess: (data) => {
 			queryClient.setQueryData(["project", data.id], data);
-
 			queryClient.invalidateQueries("projects");
 		},
 	});
