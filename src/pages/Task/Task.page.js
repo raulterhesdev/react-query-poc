@@ -4,7 +4,10 @@ import { useDeleteTask } from "../../hooks/mutations/useDeleteTask";
 import { useUpdateTask } from "../../hooks/mutations/useUpdateTask";
 import { useTask } from "../../hooks/queries/useTask";
 import { useUser } from "../../hooks/queries/useUser";
+import { useAuth } from "../../context/auth-context";
 import { severities } from "../../utils/constants";
+import AddComment from "./Components/AddComment";
+import { useDeleteComment } from "../../hooks/mutations/useDeleteComment";
 
 const Task = () => {
 	const params = useParams();
@@ -13,6 +16,8 @@ const Task = () => {
 	const userQuery = useUser();
 	const deleteTaskMutation = useDeleteTask();
 	const updateTaskMutation = useUpdateTask();
+	const deleteCommentMutation = useDeleteComment();
+	const { user } = useAuth();
 	const [state, setState] = useState("");
 	const [severity, setSeverity] = useState("");
 	const [description, setDescription] = useState("");
@@ -31,6 +36,30 @@ const Task = () => {
 		deleteTaskMutation.mutate({ projectId: data.projectId, taskId: data.id });
 		history.push(`/project/${data.projectId}`);
 	};
+
+	const submitDeleteComment = (commentId) => {
+		deleteCommentMutation.mutate({ commentId, taskId: params.taskId });
+	};
+
+	const comments = [];
+
+	if (!isLoading && !error) {
+		for (const key in data.comments) {
+			if (data.comments.hasOwnProperty(key)) {
+				const element = data.comments[key];
+				comments.push(
+					<div key={element.id}>
+						<p>{element.text}</p>
+						{user.user.uid === element.uid ? (
+							<button onClick={() => submitDeleteComment(element.id)}>
+								Delete
+							</button>
+						) : null}
+					</div>
+				);
+			}
+		}
+	}
 
 	return (
 		<div>
@@ -73,9 +102,11 @@ const Task = () => {
 					) : (
 						<p>You don't have the rights to modify this task</p>
 					)}
+					<h2>Comments:</h2>
+					<AddComment id={data.id} />
+					{comments}
 				</div>
 			)}
-			<h2>Comments:</h2>
 		</div>
 	);
 };

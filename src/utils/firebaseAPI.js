@@ -254,3 +254,29 @@ export const updateTask = (data) => {
 		return dataTask;
 	});
 };
+
+export const createComment = (inputs) => {
+	const { text, taskId, uid } = inputs;
+	const createdAt = getCurrentDate();
+	const data = { text, taskId, createdAt, uid };
+
+	const newKey = firebase.database().ref().child("projects").push().key;
+
+	data.id = newKey;
+
+	const updates = {};
+	updates[`/task/${taskId}/comments/${newKey}`] = data;
+
+	return addUpdatesToFirebase(updates).then(() => taskId);
+};
+
+export const deleteComment = ({ taskId, commentId }) => {
+	const updates = {};
+	updates[`/task/${taskId}/comments/${commentId}`] = {};
+
+	return addUpdatesToFirebase(updates)
+		.then(() => {
+			return { taskId };
+		})
+		.catch((error) => Promise.reject(error));
+};
