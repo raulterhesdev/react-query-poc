@@ -1,5 +1,5 @@
 import React from "react";
-import { useTasks } from "../../hooks/queries/useTasks";
+import { useTasks } from "../../hooks/queries/taskQueries";
 import { Link } from "react-router-dom";
 
 const Tasks = () => {

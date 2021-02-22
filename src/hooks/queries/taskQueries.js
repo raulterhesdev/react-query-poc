@@ -1,5 +1,15 @@
 import { useQuery, useQueryClient } from "react-query";
-import { getTask } from "../../utils/firebaseAPI";
+import { getProjectTasks, getTasks, getTask } from "../../utils/firebaseAPI";
+
+export const useProjectTasks = (projectId) => {
+	return useQuery(["project tasks", projectId], () =>
+		getProjectTasks(projectId)
+	);
+};
+
+export const useTasks = () => {
+	return useQuery("tasks", getTasks);
+};
 
 export const useTask = (taskId) => {
 	const queryClient = useQueryClient();

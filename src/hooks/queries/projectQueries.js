@@ -1,5 +1,9 @@
 import { useQuery, useQueryClient } from "react-query";
-import { getProject } from "../../utils/firebaseAPI";
+import { getProject, getProjects } from "../../utils/firebaseAPI";
+
+export const useProjects = () => {
+	return useQuery("projects", getProjects);
+};
 
 export const useProject = (projectId) => {
 	const queryClient = useQueryClient();

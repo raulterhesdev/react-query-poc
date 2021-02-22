@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useUser } from "../../hooks/queries/useUser";
-import { useUpdateUserData } from "../../hooks/mutations/useUpdateUserData";
+import { useUser } from "../../hooks/queries/userQueries";
+import { useUpdateUserData } from "../../hooks/mutations/userMutations";
 
 const Account = () => {
 	const { isLoading, error, data } = useUser();

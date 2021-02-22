@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCreateComment } from "../../../hooks/mutations/useCreateComment";
+import { useCreateComment } from "../../../hooks/mutations/taskMutations";
 
 const AddComment = ({ id }) => {
 	const [comment, setComment] = useState("");

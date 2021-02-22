@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { getUser } from "../../utils/firebaseAPI";
+import { getUser, getUsers } from "../../utils/firebaseAPI";
 import { useAuth } from "../../context/auth-context";
 
 export const useUser = () => {
@@ -8,4 +8,8 @@ export const useUser = () => {
 	return useQuery(["users", uid], () => getUser(uid), {
 		refetchOnWindowFocus: false,
 	});
+};
+
+export const useUsers = () => {
+	return useQuery("users", getUsers);
 };

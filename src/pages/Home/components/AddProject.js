@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCreateProject } from "../../../hooks/mutations/useCreateProject";
+import { useCreateProject } from "../../../hooks/mutations/projectMutations";
 import { categories } from "../../../utils/constants";
 
 const AddProject = () => {

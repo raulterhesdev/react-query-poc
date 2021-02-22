@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useDeleteTask } from "../../hooks/mutations/useDeleteTask";
-import { useUpdateTask } from "../../hooks/mutations/useUpdateTask";
-import { useTask } from "../../hooks/queries/useTask";
-import { useUser } from "../../hooks/queries/useUser";
+import {
+	useDeleteTask,
+	useUpdateTask,
+	useDeleteComment,
+} from "../../hooks/mutations/taskMutations";
+import { useTask } from "../../hooks/queries/taskQueries";
+import { useUser } from "../../hooks/queries/userQueries";
 import { useAuth } from "../../context/auth-context";
 import { severities } from "../../utils/constants";
 import AddComment from "./Components/AddComment";
-import { useDeleteComment } from "../../hooks/mutations/useDeleteComment";
 
 const Task = () => {
 	const params = useParams();

@@ -1,5 +1,9 @@
 import { useMutation, useQueryClient } from "react-query";
-import { updateUser } from "../../utils/firebaseAPI";
+import { createUser, updateUser } from "../../utils/firebaseAPI";
+
+export const useCreateUserData = () => {
+	return useMutation(createUser);
+};
 
 export const useUpdateUserData = () => {
 	const queryClient = useQueryClient();

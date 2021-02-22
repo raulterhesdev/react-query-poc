@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { useDeleteProject } from "../../hooks/mutations/useDeleteProject";
-import { useUpdateProject } from "../../hooks/mutations/useUpdateProject";
-import { useProject } from "../../hooks/queries/useProject";
-import { useProjectTasks } from "../../hooks/queries/useProjectTasks";
+import {
+	useDeleteProject,
+	useUpdateProject,
+} from "../../hooks/mutations/projectMutations";
+import { useProject } from "../../hooks/queries/projectQueries";
+import { useProjectTasks } from "../../hooks/queries/taskQueries";
 import { categories } from "../../utils/constants";
 
 const Project = (props) => {

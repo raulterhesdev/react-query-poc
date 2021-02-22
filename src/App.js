@@ -3,7 +3,7 @@ import LoginPage from "./pages/Login/Login.page";
 import FullSpinner from "./components/FullSpinner/FullSpinner";
 
 import { useAuth } from "./context/auth-context";
-import { useCreateUserData } from "./hooks/mutations/useCreateUserData";
+import { useCreateUserData } from "./hooks/mutations/userMutations";
 
 const AuthenticatedApp = lazy(() => import("./AuthenticatedApp"));
 
@@ -18,7 +18,7 @@ function App() {
 	}, [user]);
 
 	return (
-		<Suspense fallback={FullSpinner}>
+		<Suspense fallback={<FullSpinner />}>
 			{user ? <AuthenticatedApp /> : <LoginPage />}
 		</Suspense>
 	);

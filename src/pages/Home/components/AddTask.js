@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useCreateTask } from "../../../hooks/mutations/useCreateTask";
-import { useProjects } from "../../../hooks/queries/useProjects";
-import { useUsers } from "../../../hooks/queries/useUsers";
+import { useCreateTask } from "../../../hooks/mutations/taskMutations";
+import { useProjects } from "../../../hooks/queries/projectQueries";
+import { useUsers } from "../../../hooks/queries/userQueries";
 import { severities } from "../../../utils/constants";
 
 const AddTask = () => {

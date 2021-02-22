@@ -1,5 +1,5 @@
 import React from "react";
-import { useProjects } from "../../hooks/queries/useProjects";
+import { useProjects } from "../../hooks/queries/projectQueries";
 import { Link } from "react-router-dom";
 
 const Project = () => {
