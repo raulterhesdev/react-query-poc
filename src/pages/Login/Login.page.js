@@ -3,7 +3,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { useAuth } from "../../context/auth-context";
 
 const Login = () => {
-	const { login, register, isLoading, user } = useAuth();
+	const { login, register, isLoading } = useAuth();
 	const [email, setEmail] = useState("test1@test.com");
 	const [password, setPassword] = useState("Test1234");
 	const [isRegister, setIsRegister] = useState(false);

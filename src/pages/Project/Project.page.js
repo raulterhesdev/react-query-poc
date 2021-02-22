@@ -4,6 +4,7 @@ import { useDeleteProject } from "../../hooks/mutations/useDeleteProject";
 import { useUpdateProject } from "../../hooks/mutations/useUpdateProject";
 import { useProject } from "../../hooks/queries/useProject";
 import { useProjectTasks } from "../../hooks/queries/useProjectTasks";
+import { categories } from "../../utils/constants";
 
 const Project = (props) => {
 	const params = useParams();
@@ -12,10 +13,12 @@ const Project = (props) => {
 	const deleteProjectMutation = useDeleteProject();
 	const updateProjectMutation = useUpdateProject();
 	const [description, setDescription] = useState("");
+	const [category, setCategory] = useState("");
 	const projectTasksQuery = useProjectTasks(params.projectId);
 
 	useEffect(() => {
 		setDescription(data?.description || "");
+		setCategory(data?.category || "");
 	}, [data]);
 
 	const submitDelete = () => {
@@ -24,7 +27,7 @@ const Project = (props) => {
 	};
 
 	const submitUpdate = () => {
-		updateProjectMutation.mutate({ ...data, description });
+		updateProjectMutation.mutate({ ...data, description, category });
 	};
 
 	return (
@@ -44,13 +47,24 @@ const Project = (props) => {
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
 					/>
+					<select
+						value={category}
+						onChange={(e) => setCategory(e.target.value)}
+					>
+						<option value='' />
+						{categories.map((c) => (
+							<option key={c} value={c}>
+								{c}
+							</option>
+						))}
+					</select>
 					<button onClick={submitDelete}>Delete Project</button>
 					<button onClick={submitUpdate}>Update Project</button>
 					<div>
 						<h2>Tasks:</h2>
-						{isLoading ? (
+						{projectTasksQuery.isLoading ? (
 							<p>Loading...</p>
-						) : error ? (
+						) : projectTasksQuery.error ? (
 							<p>
 								There was an error fetching the project... please refresh the
 								page

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useCreateTask } from "../../../hooks/mutations/useCreateTask";
 import { useProjects } from "../../../hooks/queries/useProjects";
 import { useUsers } from "../../../hooks/queries/useUsers";
+import { severities } from "../../../utils/constants";
 
 const AddTask = () => {
 	const projectQuery = useProjects();
@@ -12,6 +13,7 @@ const AddTask = () => {
 	const [description, setDescription] = useState("Test");
 	const [project, setProject] = useState("");
 	const [user, setUser] = useState("");
+	const [severity, setSeverity] = useState("");
 
 	const submitTask = () => {
 		addTaskMutation.mutate({
@@ -19,6 +21,7 @@ const AddTask = () => {
 			description,
 			projectId: project,
 			userId: user,
+			severity,
 		});
 	};
 
@@ -50,7 +53,6 @@ const AddTask = () => {
 				</select>
 			)}
 
-			{/* Another select for users here */}
 			{usersQuery.isLoading ? (
 				<p>Loading...</p>
 			) : usersQuery.error ? (
@@ -65,7 +67,15 @@ const AddTask = () => {
 					))}
 				</select>
 			)}
-			{/*  */}
+
+			<select value={severity} onChange={(e) => setSeverity(e.target.value)}>
+				<option value='' />
+				{severities.map((s) => (
+					<option key={s} value={s}>
+						{s}
+					</option>
+				))}
+			</select>
 			<button onClick={submitTask}>Add Task</button>
 		</div>
 	);

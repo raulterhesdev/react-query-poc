@@ -5,5 +5,7 @@ import { useAuth } from "../../context/auth-context";
 export const useUser = () => {
 	const { user } = useAuth();
 	const uid = user.user.uid;
-	return useQuery(["users", uid], () => getUser(uid));
+	return useQuery(["users", uid], () => getUser(uid), {
+		refetchOnWindowFocus: false,
+	});
 };

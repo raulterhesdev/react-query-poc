@@ -4,6 +4,7 @@ import { useDeleteTask } from "../../hooks/mutations/useDeleteTask";
 import { useUpdateTask } from "../../hooks/mutations/useUpdateTask";
 import { useTask } from "../../hooks/queries/useTask";
 import { useUser } from "../../hooks/queries/useUser";
+import { severities } from "../../utils/constants";
 
 const Task = () => {
 	const params = useParams();
@@ -13,15 +14,17 @@ const Task = () => {
 	const deleteTaskMutation = useDeleteTask();
 	const updateTaskMutation = useUpdateTask();
 	const [state, setState] = useState("");
-
-	// console.log(data, userQuery.data);
+	const [severity, setSeverity] = useState("");
+	const [description, setDescription] = useState("");
 
 	useEffect(() => {
 		setState(data?.state || "");
+		setSeverity(data?.severity || "");
+		setDescription(data?.description || "");
 	}, [data]);
 
 	const submitUpdate = () => {
-		updateTaskMutation.mutate({ ...data, state });
+		updateTaskMutation.mutate({ ...data, state, severity, description });
 	};
 
 	const submitDelete = () => {
@@ -40,12 +43,26 @@ const Task = () => {
 			) : (
 				<div>
 					<h1>Task Name: {data.name}</h1>
-					<p>{data.description}</p>
+					<textarea
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+					/>
 					<select value={state} onChange={(e) => setState(e.target.value)}>
 						<option value='' />
 						<option value='Initialized'>Initialized</option>
 						<option value='In Progress'>In Progress</option>
 						<option value='Closed'>Closed</option>
+					</select>
+					<select
+						value={severity}
+						onChange={(e) => setSeverity(e.target.value)}
+					>
+						<option value='' />
+						{severities.map((s) => (
+							<option key={s} value={s}>
+								{s}
+							</option>
+						))}
 					</select>
 					{userQuery.data?.uid === data.creatorUid ||
 					userQuery.data?.uid === data.userId ? (

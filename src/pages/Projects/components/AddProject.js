@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useCreateProject } from "../../../hooks/mutations/useCreateProject";
+import { categories } from "../../../utils/constants";
 
 const AddProject = () => {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
+	const [category, setCategory] = useState("");
 	const createProjectMutation = useCreateProject();
 
 	const submitProject = () => {
-		createProjectMutation.mutate({ name, description });
+		createProjectMutation.mutate({ name, description, category });
 	};
 	return (
 		<div>
@@ -22,6 +24,14 @@ const AddProject = () => {
 				placeholder='Description'
 				cols={30}
 			/>
+			<select value={category} onChange={(e) => setCategory(e.target.value)}>
+				<option value='' />
+				{categories.map((c) => (
+					<option key={c} value={c}>
+						{c}
+					</option>
+				))}
+			</select>
 			<button onClick={submitProject}>Add Project</button>
 		</div>
 	);
