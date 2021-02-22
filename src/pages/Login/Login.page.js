@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Spinner from "../../components/Spinner/Spinner";
+import FullSpinner from "../../components/FullSpinner/FullSpinner";
 import { useAuth } from "../../context/auth-context";
 
 const Login = () => {
@@ -33,7 +33,7 @@ const Login = () => {
 			>
 				{isRegister ? "Register" : "Login"}
 			</button>
-			{isLoading ? <Spinner /> : null}
+			{isLoading ? <FullSpinner /> : null}
 		</div>
 	);
 };
