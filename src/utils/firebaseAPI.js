@@ -58,7 +58,7 @@ export const updateUser = ({ uid, email, role, name, age }) => {
 	updates["/users/" + uid] = data;
 
 	return addUpdatesToFirebase(updates).then(() => {
-		return data.uid;
+		return data;
 	});
 };
 
@@ -139,7 +139,7 @@ export const updateProject = (data) => {
 	updates["/project/" + id] = projectUpdateData;
 
 	return addUpdatesToFirebase(updates).then(() => {
-		return id;
+		return projectUpdateData;
 	});
 };
 
@@ -187,7 +187,7 @@ export const deleteTask = ({ projectId, taskId }) => {
 
 	return addUpdatesToFirebase(updates)
 		.then(() => {
-			return projectId;
+			return { projectId, taskId };
 		})
 		.catch((error) => Promise.reject(error));
 };
@@ -224,6 +224,6 @@ export const updateTask = (data) => {
 	updates[`/task/${id}`] = dataTask;
 
 	return addUpdatesToFirebase(updates).then(() => {
-		return projectId;
+		return dataTask;
 	});
 };
