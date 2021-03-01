@@ -1,8 +1,8 @@
 import React from "react";
 
-const Spinner = () => {
+const Spinner = ({ fullPage }) => {
 	return (
-		<div style={{ position: "absolute", top: "40%", left: "40%" }}>
+		<div>
 			<h1>Loading...</h1>
 		</div>
 	);

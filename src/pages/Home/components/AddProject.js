@@ -1,38 +1,52 @@
 import React, { useState } from "react";
+import Button from "../../../components/Button/Button";
+import Modal from "../../../components/Modal/Modal";
+import Input from "../../../components/Input/Input";
 import { useCreateProject } from "../../../hooks/mutations/projectMutations";
 import { categories } from "../../../utils/constants";
+import Textarea from "../../../components/Textarea/Textarea";
+import { Select, Option } from "../../../components/Select/Select";
 
 const AddProject = () => {
-	const [name, setName] = useState("");
-	const [description, setDescription] = useState("");
+	const [name, setName] = useState("Project #1");
+	const [description, setDescription] = useState("Test");
 	const [category, setCategory] = useState("");
+	const [modalOpen, setModalOpen] = useState(false);
 	const createProjectMutation = useCreateProject();
 
 	const submitProject = () => {
 		createProjectMutation.mutate({ name, description, category });
 	};
 	return (
-		<div>
-			<input
-				value={name}
-				onChange={(e) => setName(e.currentTarget.value)}
-				placeholder='Project Name'
-			/>
-			<textarea
-				value={description}
-				onChange={(e) => setDescription(e.currentTarget.value)}
-				placeholder='Description'
-				cols={30}
-			/>
-			<select value={category} onChange={(e) => setCategory(e.target.value)}>
-				<option value='' />
-				{categories.map((c) => (
-					<option key={c} value={c}>
-						{c}
-					</option>
-				))}
-			</select>
-			<button onClick={submitProject}>Add Project</button>
+		<div className='p-2'>
+			<Button text='Add Project' onClick={() => setModalOpen(true)} />
+			<Modal isOpen={modalOpen} closeModal={() => setModalOpen(false)}>
+				<h2 className='p-2  text-yellow-900 text-center'>New Project</h2>
+				<Input
+					label='Name'
+					value={name}
+					onChange={(e) => setName(e.currentTarget.value)}
+				/>
+				<Textarea
+					label='Description'
+					value={description}
+					onChange={(e) => setDescription(e.currentTarget.value)}
+					cols={30}
+				/>
+				<Select
+					label='Category'
+					value={category}
+					onChange={(e) => setCategory(e.target.value)}
+				>
+					<Option value='' />
+					{categories.map((c) => (
+						<Option key={c} value={c} text={c} />
+					))}
+				</Select>
+				<div className='my-4 flex justify-center'>
+					<Button onClick={submitProject} text='Add Project' />
+				</div>
+			</Modal>
 		</div>
 	);
 };

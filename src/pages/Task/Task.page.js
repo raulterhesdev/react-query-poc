@@ -6,16 +6,24 @@ import {
 	useDeleteComment,
 } from "../../hooks/mutations/taskMutations";
 import { useTask } from "../../hooks/queries/taskQueries";
-import { useUser } from "../../hooks/queries/userQueries";
+import { useLoggedUser, useUsers } from "../../hooks/queries/userQueries";
 import { useAuth } from "../../context/auth-context";
 import { severities } from "../../utils/constants";
 import AddComment from "./Components/AddComment";
+import Layout from "../../components/Layout/Layout";
+import Spinner from "../../components/Spinner/Spinner";
+import Message from "../../components/Message/Message";
+import { Select, Option } from "../../components/Select/Select";
+import Textarea from "../../components/Textarea/Textarea";
+import Button from "../../components/Button/Button";
+import Link from "../../components/Link/Link";
 
 const Task = () => {
 	const params = useParams();
 	const history = useHistory();
 	const { isLoading, data, error } = useTask(params.taskId);
-	const userQuery = useUser();
+	const userQuery = useLoggedUser();
+	const usersQuery = useUsers();
 	const deleteTaskMutation = useDeleteTask();
 	const updateTaskMutation = useUpdateTask();
 	const deleteCommentMutation = useDeleteComment();
@@ -45,17 +53,31 @@ const Task = () => {
 
 	const comments = [];
 
-	if (!isLoading && !error) {
+	if (!isLoading && !error && !usersQuery.isLoading) {
 		for (const key in data.comments) {
 			if (data.comments.hasOwnProperty(key)) {
 				const element = data.comments[key];
+				const userData = usersQuery.data?.find(
+					(user) => user.uid === element.uid
+				);
+				console.log(element);
 				comments.push(
-					<div key={element.id}>
-						<p>{element.text}</p>
+					<div
+						key={element.id}
+						className='flex w-96 justify-between items-center rounded shadow px-4 py-2'
+					>
+						<div>
+							<p className='p-1 pb-0'>{userData?.name}</p>
+							<p className='px-1 text-sm text-gray-400'>{element.createdAt}</p>
+							<p className='p-1'>{element.text}</p>
+						</div>
 						{user.user.uid === element.uid ? (
-							<button onClick={() => submitDeleteComment(element.id)}>
-								Delete
-							</button>
+							<Button
+								onClick={() => submitDeleteComment(element.id)}
+								size='small'
+								type='danger'
+								text='x'
+							/>
 						) : null}
 					</div>
 				);
@@ -63,53 +85,92 @@ const Task = () => {
 		}
 	}
 
+	const canUpdateDelete =
+		userQuery.data?.uid === data?.creatorUid ||
+		userQuery.data?.uid === data?.userId;
+
 	return (
-		<div>
-			{isLoading ? (
-				<p>Loading...</p>
-			) : error ? (
-				<p>
-					There was an error fetching the project... please refresh the page
-				</p>
-			) : (
-				<div>
-					<h1>Task Name: {data.name}</h1>
-					<textarea
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
-					/>
-					<select value={state} onChange={(e) => setState(e.target.value)}>
-						<option value='' />
-						<option value='Initialized'>Initialized</option>
-						<option value='In Progress'>In Progress</option>
-						<option value='Closed'>Closed</option>
-					</select>
-					<select
-						value={severity}
-						onChange={(e) => setSeverity(e.target.value)}
-					>
-						<option value='' />
-						{severities.map((s) => (
-							<option key={s} value={s}>
-								{s}
-							</option>
-						))}
-					</select>
-					{userQuery.data?.uid === data.creatorUid ||
-					userQuery.data?.uid === data.userId ? (
-						<div>
-							<button onClick={submitUpdate}>Update Task</button>
-							<button onClick={submitDelete}>Delete Task</button>
-						</div>
-					) : (
-						<p>You don't have the rights to modify this task</p>
-					)}
-					<h2>Comments:</h2>
-					<AddComment id={data.id} />
-					{comments}
-				</div>
-			)}
-		</div>
+		<Layout pageTitle={data?.name || "..."}>
+			<div className='px-6 py-4 flex flex-col justify-center items-center'>
+				{isLoading ? (
+					<Spinner />
+				) : error ? (
+					<Message type='error'>
+						There was an error fetching the project... please refresh the page
+					</Message>
+				) : (
+					<>
+						<Textarea
+							label='Description'
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+						/>
+						<Select
+							value={state}
+							onChange={(e) => setState(e.target.value)}
+							label='State'
+						>
+							<Option value='' />
+							<Option value='Initialized' text='Initialized' />
+							<Option value='In Progress' text='In Progress' />
+							<Option value='Closed' text='Closed' />
+						</Select>
+						<Select
+							value={severity}
+							onChange={(e) => setSeverity(e.target.value)}
+							label='Severity'
+						>
+							<Option value='' />
+							{severities.map((s) => (
+								<Option key={s} value={s}>
+									{s}
+								</Option>
+							))}
+						</Select>
+						{canUpdateDelete ? (
+							<div className='my-4'>
+								{updateTaskMutation.isLoading ? (
+									<Spinner />
+								) : (
+									<>
+										{updateTaskMutation.isError ? (
+											<Message type='error'>
+												There was an error updating the project data.
+											</Message>
+										) : null}
+										<Button onClick={submitUpdate} text='Update Task' />
+									</>
+								)}
+							</div>
+						) : null}
+
+						<AddComment id={data.id} />
+						<h2 className='p-2  text-yellow-900'>Comments:</h2>
+						{comments}
+						{canUpdateDelete ? (
+							<div className='my-4'>
+								{deleteTaskMutation.isLoading ? (
+									<Spinner />
+								) : (
+									<>
+										{deleteTaskMutation.isError ? (
+											<Message type='error'>
+												There was an error deleting the project.
+											</Message>
+										) : null}
+										<Button
+											type='danger'
+											text='Delete Project'
+											onClick={submitDelete}
+										/>
+									</>
+								)}
+							</div>
+						) : null}
+					</>
+				)}
+			</div>
+		</Layout>
 	);
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, Suspense, lazy } from "react";
 import LoginPage from "./pages/Login/Login.page";
-import FullSpinner from "./components/FullSpinner/FullSpinner";
+import Spinner from "./components/Spinner/Spinner";
 
 import { useAuth } from "./context/auth-context";
 import { useCreateUserData } from "./hooks/mutations/userMutations";
@@ -18,7 +18,7 @@ function App() {
 	}, [user]);
 
 	return (
-		<Suspense fallback={<FullSpinner />}>
+		<Suspense fallback={<Spinner fullPage />}>
 			{user ? <AuthenticatedApp /> : <LoginPage />}
 		</Suspense>
 	);

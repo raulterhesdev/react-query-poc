@@ -11,7 +11,7 @@ import TasksPage from "./pages/Tasks/Tasks.page";
 
 const AuthenticatedApp = () => {
 	return (
-		<>
+		<div className='font-poppins flex min-h-screen'>
 			<Header />
 			<Switch>
 				<Route path='/' exact>
@@ -26,14 +26,14 @@ const AuthenticatedApp = () => {
 				<Route path='/tasks' exact>
 					<TasksPage />
 				</Route>
-				<Route path='/project/:projectId'>
+				<Route path='/projects/:projectId'>
 					<ProjectPage />
 				</Route>
 				<Route path='/tasks/:taskId'>
 					<TaskPage />
 				</Route>
 			</Switch>
-		</>
+		</div>
 	);
 };
 

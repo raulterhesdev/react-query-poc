@@ -3,6 +3,13 @@ import { useCreateTask } from "../../../hooks/mutations/taskMutations";
 import { useProjects } from "../../../hooks/queries/projectQueries";
 import { useUsers } from "../../../hooks/queries/userQueries";
 import { severities } from "../../../utils/constants";
+import Input from "../../../components/Input/Input";
+import { Select, Option } from "../../../components/Select/Select";
+import Button from "../../../components/Button/Button";
+import Modal from "../../../components/Modal/Modal";
+import Spinner from "../../../components/Spinner/Spinner";
+import Message from "../../../components/Message/Message";
+import Textarea from "../../../components/Textarea/Textarea";
 
 const AddTask = () => {
 	const projectQuery = useProjects();
@@ -14,6 +21,7 @@ const AddTask = () => {
 	const [project, setProject] = useState("");
 	const [user, setUser] = useState("");
 	const [severity, setSeverity] = useState("");
+	const [modalOpen, setModalOpen] = useState(false);
 
 	const submitTask = () => {
 		addTaskMutation.mutate({
@@ -26,57 +34,71 @@ const AddTask = () => {
 	};
 
 	return (
-		<div>
-			<input
-				placeholder='name'
-				value={name}
-				onChange={(e) => setName(e.currentTarget.value)}
-			/>
-			<input
-				placeholder='description'
-				value={description}
-				onChange={(e) => setDescription(e.currentTarget.value)}
-			/>
-
-			{projectQuery.isLoading ? (
-				<p>Loading...</p>
-			) : projectQuery.error ? (
-				<p>There was an error...</p>
-			) : (
-				<select value={project} onChange={(e) => setProject(e.target.value)}>
-					<option value='' />
-					{projectQuery.data.map((project) => (
-						<option key={project.id} value={project.id}>
-							{project.name}
-						</option>
+		<div className='p-2'>
+			<Button text='Add Task' onClick={() => setModalOpen(true)} />
+			<Modal isOpen={modalOpen} closeModal={() => setModalOpen(false)}>
+				<h2 className='p-2  text-yellow-900 text-center'>New Task</h2>
+				<Input
+					label='Name'
+					value={name}
+					onChange={(e) => setName(e.currentTarget.value)}
+				/>
+				<Textarea
+					label='Description'
+					value={description}
+					onChange={(e) => setDescription(e.currentTarget.value)}
+					cols={30}
+				/>
+				{projectQuery.isLoading ? (
+					<Spinner />
+				) : projectQuery.error ? (
+					<Message type='error'>There was an error...</Message>
+				) : (
+					<Select
+						label='Project'
+						value={project}
+						onChange={(e) => setProject(e.target.value)}
+					>
+						<Option value='' />
+						{projectQuery.data.map((project) => (
+							<Option key={project.id} value={project.id} text={project.name} />
+						))}
+					</Select>
+				)}
+				{usersQuery.isLoading ? (
+					<Spinner />
+				) : usersQuery.error ? (
+					<Message type='Error'>There was an error...</Message>
+				) : (
+					<Select
+						label='Owner'
+						value={user}
+						onChange={(e) => setUser(e.target.value)}
+					>
+						<Option value='' />
+						{usersQuery.data.map((project) => (
+							<Option
+								key={project.uid}
+								value={project.uid}
+								text={project.name}
+							/>
+						))}
+					</Select>
+				)}
+				<Select
+					label='Severity'
+					value={severity}
+					onChange={(e) => setSeverity(e.target.value)}
+				>
+					<Option value='' />
+					{severities.map((s) => (
+						<Option key={s} value={s} text={s} />
 					))}
-				</select>
-			)}
-
-			{usersQuery.isLoading ? (
-				<p>Loading...</p>
-			) : usersQuery.error ? (
-				<p>There was an error...</p>
-			) : (
-				<select value={user} onChange={(e) => setUser(e.target.value)}>
-					<option value='' />
-					{usersQuery.data.map((project) => (
-						<option key={project.uid} value={project.uid}>
-							{project.name}
-						</option>
-					))}
-				</select>
-			)}
-
-			<select value={severity} onChange={(e) => setSeverity(e.target.value)}>
-				<option value='' />
-				{severities.map((s) => (
-					<option key={s} value={s}>
-						{s}
-					</option>
-				))}
-			</select>
-			<button onClick={submitTask}>Add Task</button>
+				</Select>
+				<div className='my-4 flex justify-center'>
+					<Button onClick={submitTask} text='Add Task' />
+				</div>
+			</Modal>
 		</div>
 	);
 };
