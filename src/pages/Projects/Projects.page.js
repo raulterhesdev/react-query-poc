@@ -17,7 +17,11 @@ const ProjectCard = ({ project }) => {
 			<p className='bg-yellow-500 text-white py-2 px-4'>{name}</p>
 			<p className=' py-1 px-4'>{category}</p>
 			<p className=' text-yellow-600'>
-				{userQuery.isLoading ? "..." : userQuery.data.name}
+				{userQuery.isLoading ? (
+					"..."
+				) : (
+					<Link to={`/user/${userQuery.data.uid}`}>{userQuery.data.name}</Link>
+				)}
 			</p>
 			<Link to={`/projects/${id}`} className='text-right py-2 px-4'>
 				More

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
 	useDeleteProject,
 	useUpdateProject,
@@ -14,13 +14,14 @@ import Textarea from "../../components/Textarea/Textarea";
 import { Option, Select } from "../../components/Select/Select";
 import Button from "../../components/Button/Button";
 import { useUsers } from "../../hooks/queries/userQueries";
+import Link from "../../components/Link/Link";
 
 const ProjectTasks = ({ projectId }) => {
 	const { isLoading, data, error } = useProjectTasks(projectId);
 	const usersQuery = useUsers();
 
 	const tableStyle = "w-36 py-1 px-2 border-b-2 border-yellow-50";
-	const nameStyle = `${tableStyle} w-72 text-yellow-500 underline`;
+	const nameStyle = `${tableStyle} w-72 `;
 	return (
 		<div className='bg-white'>
 			<h2 className='text-center text-xl bg-yellow-500 p-3 text-white'>
@@ -48,7 +49,9 @@ const ProjectTasks = ({ projectId }) => {
 							<p className={`${nameStyle}`}>
 								<Link to={`/tasks/${task.id}`}>{task.name}</Link>
 							</p>
-							<p className={tableStyle}>{userData?.name}</p>
+							<p className={tableStyle}>
+								<Link to={`/user/${userData?.uid}`}>{userData?.name}</Link>
+							</p>
 							<p className={tableStyle}>{task.severity}</p>
 							<p className={tableStyle}>{task.state}</p>
 						</div>

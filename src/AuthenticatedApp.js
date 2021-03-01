@@ -8,6 +8,7 @@ import ProjectsPage from "./pages/Projects/Projects.page";
 import ProjectPage from "./pages/Project/Project.page";
 import TaskPage from "./pages/Task/Task.page";
 import TasksPage from "./pages/Tasks/Tasks.page";
+import UserPage from "./pages/User/User.page";
 
 const AuthenticatedApp = () => {
 	return (
@@ -31,6 +32,9 @@ const AuthenticatedApp = () => {
 				</Route>
 				<Route path='/tasks/:taskId'>
 					<TaskPage />
+				</Route>
+				<Route path='/user/:userId'>
+					<UserPage />
 				</Route>
 			</Switch>
 		</div>

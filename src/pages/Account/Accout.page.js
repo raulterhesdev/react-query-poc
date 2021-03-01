@@ -5,7 +5,6 @@ import Spinner from "../../components/Spinner/Spinner";
 import Message from "../../components/Message/Message";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
-import PageTitle from "../../components/PageTitle/PageTitle";
 import Layout from "../../components/Layout/Layout";
 
 const Account = () => {

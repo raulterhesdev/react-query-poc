@@ -1,42 +1,51 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import Layout from "../../components/Layout/Layout";
+import { useUser } from "../../hooks/queries/userQueries";
 import { useTasks } from "../../hooks/queries/taskQueries";
-import Link from "../../components/Link/Link";
 import Spinner from "../../components/Spinner/Spinner";
 import Message from "../../components/Message/Message";
-import Layout from "../../components/Layout/Layout";
-import { useUsers } from "../../hooks/queries/userQueries";
+import Link from "../../components/Link/Link";
 import { useProjects } from "../../hooks/queries/projectQueries";
 
-const Tasks = () => {
-	const { isLoading, data, error } = useTasks();
-	const usersQuery = useUsers();
+const User = () => {
+	const params = useParams();
+	const userQuery = useUser(params.userId);
+	const tasksQuery = useTasks();
 	const projectQuery = useProjects();
 
 	const tableStyle =
 		"w-36 py-1 px-2 border-b-2 border-yellow-50 overflow-ellipsis";
 	const extentedStyle = `${tableStyle} w-72 `;
 	return (
-		<Layout pageTitle='Tasks'>
-			<div className='flex flex-col items-center m-6 bg-white p-4 shadow rounded '>
+		<Layout pageTitle={userQuery.data?.name || "..."}>
+			<div className='flex flex-col justify-center items-center w-full mt-12'>
+				{userQuery.isLoading ? (
+					<Spinner />
+				) : userQuery.error ? (
+					<Message type='error'>
+						There was an error fetching the user data.
+					</Message>
+				) : (
+					<>
+						<p>Email: {userQuery.data.email}</p>
+					</>
+				)}
 				<div className='flex font-bold text-center '>
 					<p className={`${tableStyle} w-72`}>Project</p>
 					<p className={`${tableStyle} w-72`}>Name</p>
-					<p className={tableStyle}>Owner</p>
 					<p className={tableStyle}>Severity</p>
 					<p className={tableStyle}>State</p>
 				</div>
-				{isLoading ? (
+				{tasksQuery.isLoading ? (
 					<Spinner />
-				) : error ? (
+				) : tasksQuery.error ? (
 					<Message type='error'>
-						There was an error fetching the project data.
+						There was an error fetching the tasks data.
 					</Message>
 				) : (
 					<div>
-						{data.map((task) => {
-							const userData = usersQuery.data?.find(
-								(user) => user.uid === task.userId
-							);
+						{tasksQuery.data.map((task) => {
 							const projectData = projectQuery.data?.find(
 								(project) => project.id === task.projectId
 							);
@@ -50,9 +59,6 @@ const Tasks = () => {
 									<p className={`${extentedStyle}`}>
 										<Link to={`/tasks/${task.id}`}>{task.name}</Link>
 									</p>
-									<p className={tableStyle}>
-										<Link to={`/user/${userData?.uid}`}>{userData?.name}</Link>
-									</p>
 									<p className={tableStyle}>{task.severity}</p>
 									<p className={tableStyle}>{task.state}</p>
 								</div>
@@ -65,4 +71,4 @@ const Tasks = () => {
 	);
 };
 
-export default Tasks;
+export default User;

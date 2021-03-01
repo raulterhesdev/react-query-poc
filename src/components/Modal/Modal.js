@@ -7,7 +7,7 @@ const Modal = ({ children, isOpen, closeModal }) => {
 				isOpen ? "100" : "0"
 			} scale-${
 				isOpen ? "100" : "0"
-			} z-50 bg-white ml-24 h-5/6 overflow-auto w-7/12 flex flex-col items-center`}
+			} z-50 bg-white ml-24 max-h-96 overflow-auto  flex flex-col items-center`}
 		>
 			<span
 				className='absolute top-2 right-4 text-yellow-900 hover:text-yellow-500 cursor-pointer'

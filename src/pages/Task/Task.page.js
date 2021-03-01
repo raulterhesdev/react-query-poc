@@ -67,7 +67,9 @@ const Task = () => {
 						className='flex w-96 justify-between items-center rounded shadow px-4 py-2'
 					>
 						<div>
-							<p className='p-1 pb-0'>{userData?.name}</p>
+							<p className='p-1 pb-0'>
+								<Link to={`/user/${userData?.uid}`}>{userData?.name}</Link>
+							</p>
 							<p className='px-1 text-sm text-gray-400'>{element.createdAt}</p>
 							<p className='p-1'>{element.text}</p>
 						</div>
@@ -122,9 +124,7 @@ const Task = () => {
 						>
 							<Option value='' />
 							{severities.map((s) => (
-								<Option key={s} value={s}>
-									{s}
-								</Option>
+								<Option key={s} value={s} text={s} />
 							))}
 						</Select>
 						{canUpdateDelete ? (
