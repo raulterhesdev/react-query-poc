@@ -12,7 +12,7 @@ const ProjectCard = ({ project }) => {
 	return (
 		<div
 			key={id}
-			className='flex flex-col  text-center shadow  m-3 rounded overflow-hidden w-40 bg-white'
+			className='flex flex-col  text-center shadow  m-3 rounded overflow-hidden w-56 bg-white'
 		>
 			<p className='bg-yellow-500 text-white py-2 px-4'>{name}</p>
 			<p className=' py-1 px-4'>{category}</p>

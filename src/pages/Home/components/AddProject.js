@@ -19,7 +19,11 @@ const AddProject = () => {
 	};
 	return (
 		<div className='p-2'>
-			<Button text='Add Project' onClick={() => setModalOpen(true)} />
+			<Button
+				text='Add Project'
+				onClick={() => setModalOpen(true)}
+				size='small'
+			/>
 			<Modal isOpen={modalOpen} closeModal={() => setModalOpen(false)}>
 				<h2 className='p-2  text-yellow-900 text-center'>New Project</h2>
 				<Input

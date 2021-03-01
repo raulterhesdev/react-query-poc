@@ -35,7 +35,7 @@ const AddTask = () => {
 
 	return (
 		<div className='p-2'>
-			<Button text='Add Task' onClick={() => setModalOpen(true)} />
+			<Button text='Add Task' onClick={() => setModalOpen(true)} size='small' />
 			<Modal isOpen={modalOpen} closeModal={() => setModalOpen(false)}>
 				<h2 className='p-2  text-yellow-900 text-center'>New Task</h2>
 				<Input

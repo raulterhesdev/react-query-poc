@@ -6,7 +6,7 @@ const Button = ({ onClick, type, text, size }) => {
 	const btnSize = size === "small" ? "py-1 px-3" : "py-2 px-8 w-56";
 	return (
 		<button
-			className={` ${btnSize} rounded ${bgColor}-500 hover:${bgColor}-600 shadow hover:shadow-none focus:outline-none text-white`}
+			className={` ${btnSize} rounded ${bgColor}-500 hover:${bgColor}-600 shadow hover:shadow-none focus:outline-none text-white `}
 			onClick={onClick}
 		>
 			{text}

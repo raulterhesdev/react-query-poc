@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
-import { useUser } from "../../hooks/queries/userQueries";
+import { useLoggedUser, useUser } from "../../hooks/queries/userQueries";
 import { useTasks } from "../../hooks/queries/taskQueries";
 import Spinner from "../../components/Spinner/Spinner";
 import Message from "../../components/Message/Message";
@@ -13,24 +13,20 @@ const User = () => {
 	const userQuery = useUser(params.userId);
 	const tasksQuery = useTasks();
 	const projectQuery = useProjects();
+	const loggedUserQuery = useLoggedUser();
 
 	const tableStyle =
 		"w-36 py-1 px-2 border-b-2 border-yellow-50 overflow-ellipsis";
 	const extentedStyle = `${tableStyle} w-72 `;
 	return (
-		<Layout pageTitle={userQuery.data?.name || "..."}>
+		<Layout
+			pageTitle={
+				params.userId === loggedUserQuery.data?.uid
+					? "Your Work"
+					: userQuery.data?.name || "..."
+			}
+		>
 			<div className='flex flex-col justify-center items-center w-full mt-12'>
-				{userQuery.isLoading ? (
-					<Spinner />
-				) : userQuery.error ? (
-					<Message type='error'>
-						There was an error fetching the user data.
-					</Message>
-				) : (
-					<>
-						<p>Email: {userQuery.data.email}</p>
-					</>
-				)}
 				<div className='flex font-bold text-center '>
 					<p className={`${tableStyle} w-72`}>Project</p>
 					<p className={`${tableStyle} w-72`}>Name</p>
