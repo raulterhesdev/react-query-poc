@@ -20,3 +20,29 @@ export const useTask = (taskId) => {
 		},
 	});
 };
+
+export const usePrefetchTask = () => {
+	const queryClient = useQueryClient();
+	const prefetchTask = (taskId) => {
+		queryClient.prefetchQuery(["tasks", taskId], () => getTask(taskId), {
+			staleTime: 30 * 1000,
+		});
+	};
+
+	return [prefetchTask];
+};
+
+export const usePrefetchProjectTasks = () => {
+	const queryClient = useQueryClient();
+	const prefetchTasks = (projectId) => {
+		queryClient.prefetchQuery(
+			["project tasks", projectId],
+			() => getProjectTasks(projectId),
+			{
+				staleTime: 30 * 1000,
+			}
+		);
+	};
+
+	return [prefetchTasks];
+};

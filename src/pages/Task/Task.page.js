@@ -5,7 +5,7 @@ import {
 	useUpdateTask,
 	useDeleteComment,
 } from "../../hooks/mutations/taskMutations";
-import { useTask } from "../../hooks/queries/taskQueries";
+import { useTask, usePrefetchTask } from "../../hooks/queries/taskQueries";
 import { useLoggedUser, useUsers } from "../../hooks/queries/userQueries";
 import { useAuth } from "../../context/auth-context";
 import { severities } from "../../utils/constants";
@@ -60,7 +60,6 @@ const Task = () => {
 				const userData = usersQuery.data?.find(
 					(user) => user.uid === element.uid
 				);
-				console.log(element);
 				comments.push(
 					<div
 						key={element.id}

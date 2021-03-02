@@ -1,6 +1,7 @@
 import React from "react";
 import { useProjects } from "../../hooks/queries/projectQueries";
 import { useUser } from "../../hooks/queries/userQueries";
+import { usePrefetchProjectTasks } from "../../hooks/queries/taskQueries";
 import Link from "../../components/Link/Link";
 import Layout from "../../components/Layout/Layout";
 import Spinner from "../../components/Spinner/Spinner";
@@ -9,6 +10,7 @@ import Message from "../../components/Message/Message";
 const ProjectCard = ({ project }) => {
 	const { id, name, category, ownerUid } = project;
 	const userQuery = useUser(ownerUid);
+	const [prefetchTasks] = usePrefetchProjectTasks();
 	return (
 		<div
 			key={id}
@@ -23,7 +25,13 @@ const ProjectCard = ({ project }) => {
 					<Link to={`/user/${userQuery.data.uid}`}>{userQuery.data.name}</Link>
 				)}
 			</p>
-			<Link to={`/projects/${id}`} className='text-right py-2 px-4'>
+			<Link
+				to={`/projects/${id}`}
+				className='text-right py-2 px-4'
+				onMouseEnter={() => {
+					prefetchTasks(id);
+				}}
+			>
 				More
 			</Link>
 		</div>

@@ -5,7 +5,10 @@ import {
 	useUpdateProject,
 } from "../../hooks/mutations/projectMutations";
 import { useProject } from "../../hooks/queries/projectQueries";
-import { useProjectTasks } from "../../hooks/queries/taskQueries";
+import {
+	useProjectTasks,
+	usePrefetchTask,
+} from "../../hooks/queries/taskQueries";
 import { categories } from "../../utils/constants";
 import Layout from "../../components/Layout/Layout";
 import Spinner from "../../components/Spinner/Spinner";
@@ -19,6 +22,7 @@ import Link from "../../components/Link/Link";
 const ProjectTasks = ({ projectId }) => {
 	const { isLoading, data, error } = useProjectTasks(projectId);
 	const usersQuery = useUsers();
+	const [prefetchTask] = usePrefetchTask();
 
 	const tableStyle = "w-36 py-1 px-2 border-b-2 border-yellow-50";
 	const nameStyle = `${tableStyle} w-72 `;
@@ -47,7 +51,12 @@ const ProjectTasks = ({ projectId }) => {
 					return (
 						<div key={task.id} className='flex'>
 							<p className={`${nameStyle}`}>
-								<Link to={`/tasks/${task.id}`}>{task.name}</Link>
+								<Link
+									to={`/tasks/${task.id}`}
+									onMouseEnter={() => prefetchTask(task.id)}
+								>
+									{task.name}
+								</Link>
 							</p>
 							<p className={tableStyle}>
 								<Link to={`/user/${userData?.uid}`}>{userData?.name}</Link>

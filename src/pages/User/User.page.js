@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
 import { useLoggedUser, useUser } from "../../hooks/queries/userQueries";
-import { useTasks } from "../../hooks/queries/taskQueries";
+import { useTasks, usePrefetchTask } from "../../hooks/queries/taskQueries";
 import Spinner from "../../components/Spinner/Spinner";
 import Message from "../../components/Message/Message";
 import Link from "../../components/Link/Link";
@@ -14,6 +14,7 @@ const User = () => {
 	const tasksQuery = useTasks();
 	const projectQuery = useProjects();
 	const loggedUserQuery = useLoggedUser();
+	const [prefetchTask] = usePrefetchTask();
 
 	const tableStyle =
 		"w-36 py-1 px-2 border-b-2 border-yellow-50 overflow-ellipsis";
@@ -53,7 +54,12 @@ const User = () => {
 										</Link>
 									</p>
 									<p className={`${extentedStyle}`}>
-										<Link to={`/tasks/${task.id}`}>{task.name}</Link>
+										<Link
+											to={`/tasks/${task.id}`}
+											onMouseEnter={() => prefetchTask(task.id)}
+										>
+											{task.name}
+										</Link>
 									</p>
 									<p className={tableStyle}>{task.severity}</p>
 									<p className={tableStyle}>{task.state}</p>

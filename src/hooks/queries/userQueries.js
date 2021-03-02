@@ -12,7 +12,7 @@ export const useLoggedUser = () => {
 
 export const useUser = (uid) => {
 	const queryClient = useQueryClient();
-	return useQuery(["user", uid], () => getUser(uid), {
+	return useQuery(["users", uid], () => getUser(uid), {
 		initialData: () => {
 			return queryClient.getQueryData("users")?.find((u) => u.uid === uid);
 		},
