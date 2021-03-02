@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { getUser, getUsers } from "../../utils/firebaseAPI";
 import { useAuth } from "../../context/auth-context";
 
@@ -11,7 +11,12 @@ export const useLoggedUser = () => {
 };
 
 export const useUser = (uid) => {
-	return useQuery(["user", uid], () => getUser(uid));
+	const queryClient = useQueryClient();
+	return useQuery(["user", uid], () => getUser(uid), {
+		initialData: () => {
+			return queryClient.getQueryData("users")?.find((u) => u.uid === uid);
+		},
+	});
 };
 
 export const useUsers = () => {
