@@ -86,7 +86,7 @@ const Project = (props) => {
 	};
 
 	return (
-		<Layout pageTitle={data?.name || "..."}>
+		<Layout pageTitle={data?.name}>
 			<div className='px-6 py-4 flex flex-col justify-center items-center'>
 				{isLoading ? (
 					<Spinner />

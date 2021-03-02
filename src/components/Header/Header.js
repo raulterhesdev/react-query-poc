@@ -36,7 +36,7 @@ const Header = () => {
 	const { data: userData } = useLoggedUser();
 	return (
 		<div className='bg-yellow-500 px-4 py-6 fixed top-0 left-0 h-full shadow'>
-			<Navigation userId={userData.uid} />
+			<Navigation userId={userData?.uid} />
 			<div className='bg-white rounded mt-8'>
 				<p className='text-yellow-900 text-center'>Actions:</p>
 				<AddTask />
