@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import { useIsFetching } from "react-query";
 
 import Header from "./components/Header/Header";
 import Home from "./pages/Home/Home.page";
@@ -9,8 +10,10 @@ import ProjectPage from "./pages/Project/Project.page";
 import TaskPage from "./pages/Task/Task.page";
 import TasksPage from "./pages/Tasks/Tasks.page";
 import UserPage from "./pages/User/User.page";
+import Spinner from "./components/Spinner/Spinner";
 
 const AuthenticatedApp = () => {
+	const isGlobalFetching = useIsFetching();
 	return (
 		<div className='font-poppins flex min-h-screen'>
 			<Header />
@@ -37,6 +40,11 @@ const AuthenticatedApp = () => {
 					<UserPage />
 				</Route>
 			</Switch>
+			{isGlobalFetching ? (
+				<div className='fixed bottom-0 right-0 p-2 bg-black rounded-full'>
+					<Spinner />
+				</div>
+			) : null}
 		</div>
 	);
 };
