@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+
 import { useAuth } from "../../context/auth-context";
+
 import Spinner from "../../components/Spinner/Spinner";
 import Input from "../../components/Input/InputAuth";
 import Button from "../../components/Button/Button";

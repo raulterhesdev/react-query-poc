@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+
 import {
 	useDeleteTask,
 	useUpdateTask,
 	useDeleteComment,
 } from "../../hooks/mutations/taskMutations";
-import { useTask, usePrefetchTask } from "../../hooks/queries/taskQueries";
+import { useTask } from "../../hooks/queries/taskQueries";
 import { useLoggedUser, useUsers } from "../../hooks/queries/userQueries";
 import { useAuth } from "../../context/auth-context";
-import { severities } from "../../utils/constants";
+
 import AddComment from "./Components/AddComment";
 import Layout from "../../components/Layout/Layout";
 import Spinner from "../../components/Spinner/Spinner";
@@ -17,6 +18,8 @@ import { Select, Option } from "../../components/Select/Select";
 import Textarea from "../../components/Textarea/Textarea";
 import Button from "../../components/Button/Button";
 import Link from "../../components/Link/Link";
+
+import { severities } from "../../utils/constants";
 
 const Task = () => {
 	const params = useParams();

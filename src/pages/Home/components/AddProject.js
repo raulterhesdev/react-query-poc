@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
+
+import { useCreateProject } from "../../../hooks/mutations/projectMutations";
+
 import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
 import Input from "../../../components/Input/Input";
-import { useCreateProject } from "../../../hooks/mutations/projectMutations";
-import { categories } from "../../../utils/constants";
 import Textarea from "../../../components/Textarea/Textarea";
 import { Select, Option } from "../../../components/Select/Select";
+
+import { categories } from "../../../utils/constants";
 
 const AddProject = () => {
 	const [name, setName] = useState("Project #1");

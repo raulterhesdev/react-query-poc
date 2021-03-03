@@ -40,11 +40,11 @@ const AuthenticatedApp = () => {
 					<UserPage />
 				</Route>
 			</Switch>
-			{isGlobalFetching ? (
+			{/* {isGlobalFetching ? (
 				<div className='fixed bottom-0 right-0 p-2 bg-black rounded-full'>
 					<Spinner />
 				</div>
-			) : null}
+			) : null} */}
 		</div>
 	);
 };

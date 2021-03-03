@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+
 import { useCreateTask } from "../../../hooks/mutations/taskMutations";
 import { useProjects } from "../../../hooks/queries/projectQueries";
 import { useUsers } from "../../../hooks/queries/userQueries";
-import { severities } from "../../../utils/constants";
+
 import Input from "../../../components/Input/Input";
 import { Select, Option } from "../../../components/Select/Select";
 import Button from "../../../components/Button/Button";
@@ -10,6 +11,8 @@ import Modal from "../../../components/Modal/Modal";
 import Spinner from "../../../components/Spinner/Spinner";
 import Message from "../../../components/Message/Message";
 import Textarea from "../../../components/Textarea/Textarea";
+
+import { severities } from "../../../utils/constants";
 
 const AddTask = () => {
 	const projectQuery = useProjects();

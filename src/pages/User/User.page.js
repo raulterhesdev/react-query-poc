@@ -1,12 +1,14 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Layout from "../../components/Layout/Layout";
+
 import { useLoggedUser, useUser } from "../../hooks/queries/userQueries";
 import { useTasks, usePrefetchTask } from "../../hooks/queries/taskQueries";
+import { useProjects } from "../../hooks/queries/projectQueries";
+
+import Layout from "../../components/Layout/Layout";
 import Spinner from "../../components/Spinner/Spinner";
 import Message from "../../components/Message/Message";
 import Link from "../../components/Link/Link";
-import { useProjects } from "../../hooks/queries/projectQueries";
 
 const User = () => {
 	const params = useParams();

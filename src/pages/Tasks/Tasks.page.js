@@ -1,11 +1,13 @@
 import React from "react";
+
 import { useTasks, usePrefetchTask } from "../../hooks/queries/taskQueries";
+import { useUsers } from "../../hooks/queries/userQueries";
+import { useProjects } from "../../hooks/queries/projectQueries";
+
 import Link from "../../components/Link/Link";
 import Spinner from "../../components/Spinner/Spinner";
 import Message from "../../components/Message/Message";
 import Layout from "../../components/Layout/Layout";
-import { useUsers } from "../../hooks/queries/userQueries";
-import { useProjects } from "../../hooks/queries/projectQueries";
 
 const Tasks = () => {
 	const { isLoading, data, error } = useTasks();

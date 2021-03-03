@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
+
 import {
 	useDeleteProject,
 	useUpdateProject,
@@ -9,15 +10,17 @@ import {
 	useProjectTasks,
 	usePrefetchTask,
 } from "../../hooks/queries/taskQueries";
-import { categories } from "../../utils/constants";
+import { useUsers } from "../../hooks/queries/userQueries";
+
 import Layout from "../../components/Layout/Layout";
 import Spinner from "../../components/Spinner/Spinner";
 import Message from "../../components/Message/Message";
 import Textarea from "../../components/Textarea/Textarea";
 import { Option, Select } from "../../components/Select/Select";
 import Button from "../../components/Button/Button";
-import { useUsers } from "../../hooks/queries/userQueries";
 import Link from "../../components/Link/Link";
+
+import { categories } from "../../utils/constants";
 
 const ProjectTasks = ({ projectId }) => {
 	const { isLoading, data, error } = useProjectTasks(projectId);

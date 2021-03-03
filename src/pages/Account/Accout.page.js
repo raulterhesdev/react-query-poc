@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+
 import { useLoggedUser } from "../../hooks/queries/userQueries";
 import { useUpdateUserData } from "../../hooks/mutations/userMutations";
+
 import Spinner from "../../components/Spinner/Spinner";
 import Message from "../../components/Message/Message";
 import Input from "../../components/Input/Input";
