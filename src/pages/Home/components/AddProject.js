@@ -7,6 +7,7 @@ import Modal from "../../../components/Modal/Modal";
 import Input from "../../../components/Input/Input";
 import Textarea from "../../../components/Textarea/Textarea";
 import { Select, Option } from "../../../components/Select/Select";
+import QueryWrapper from "../../../components/QueryWrapper/QueryWrapper";
 
 import { categories } from "../../../utils/constants";
 
@@ -58,7 +59,13 @@ const AddProject = () => {
 					))}
 				</Select>
 				<div className='my-4 flex justify-center'>
-					<Button onClick={submitProject} text='Add Project' />
+					<QueryWrapper
+						isLoading={createProjectMutation.isLoading}
+						error={createProjectMutation.error}
+						errorText='There ware an error updating the project.'
+					>
+						<Button onClick={submitProject} text='Add Project' />
+					</QueryWrapper>
 				</div>
 			</Modal>
 		</div>

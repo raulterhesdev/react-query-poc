@@ -6,8 +6,7 @@ import { usePrefetchProjectTasks } from "../../hooks/queries/taskQueries";
 
 import Link from "../../components/Link/Link";
 import Layout from "../../components/Layout/Layout";
-import Spinner from "../../components/Spinner/Spinner";
-import Message from "../../components/Message/Message";
+import QueryWrapper from "../../components/QueryWrapper/QueryWrapper";
 
 const ProjectCard = ({ project }) => {
 	const { id, name, category, ownerUid } = project;
@@ -45,20 +44,16 @@ const Projects = () => {
 
 	return (
 		<Layout pageTitle='All Projects'>
-			<div className='px-6 py-4 flex flex-wrap'>
-				{isLoading ? (
-					<Spinner />
-				) : error ? (
-					<Message type='error'>
-						There was an error fetching the projects... please refresh the page
-					</Message>
-				) : (
-					<>
-						{data.map((project) => (
-							<ProjectCard key={project.id} project={project} />
-						))}
-					</>
-				)}
+			<div className='px-6 py-4 flex flex-wrap justify-center'>
+				<QueryWrapper
+					isLoading={isLoading}
+					errorText='There was an error fetching the projects.'
+					error={error}
+				>
+					{data?.map((project) => (
+						<ProjectCard key={project.id} project={project} />
+					))}
+				</QueryWrapper>
 			</div>
 		</Layout>
 	);

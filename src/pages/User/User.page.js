@@ -6,9 +6,8 @@ import { useTasks, usePrefetchTask } from "../../hooks/queries/taskQueries";
 import { useProjects } from "../../hooks/queries/projectQueries";
 
 import Layout from "../../components/Layout/Layout";
-import Spinner from "../../components/Spinner/Spinner";
-import Message from "../../components/Message/Message";
 import Link from "../../components/Link/Link";
+import QueryWrapper from "../../components/QueryWrapper/QueryWrapper";
 
 const User = () => {
 	const params = useParams();
@@ -36,15 +35,13 @@ const User = () => {
 					<p className={tableStyle}>Severity</p>
 					<p className={tableStyle}>State</p>
 				</div>
-				{tasksQuery.isLoading ? (
-					<Spinner />
-				) : tasksQuery.error ? (
-					<Message type='error'>
-						There was an error fetching the tasks data.
-					</Message>
-				) : (
+				<QueryWrapper
+					isLoading={tasksQuery.isLoading}
+					errorText='There was an error getting the users tasks'
+					error={tasksQuery.error}
+				>
 					<div>
-						{tasksQuery.data.map((task) => {
+						{tasksQuery.data?.map((task) => {
 							const projectData = projectQuery.data?.find(
 								(project) => project.id === task.projectId
 							);
@@ -69,7 +66,7 @@ const User = () => {
 							);
 						})}
 					</div>
-				)}
+				</QueryWrapper>
 			</div>
 		</Layout>
 	);

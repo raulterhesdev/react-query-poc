@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+
 import { useCreateComment } from "../../../hooks/mutations/taskMutations";
+
 import Textarea from "../../../components/Textarea/Textarea";
 import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
-import { createComment } from "../../../utils/firebaseAPI";
-import Spinner from "../../../components/Spinner/Spinner";
+import QueryWrapper from "../../../components/QueryWrapper/QueryWrapper";
 
 const AddComment = ({ id }) => {
 	const [comment, setComment] = useState("");
@@ -31,11 +32,13 @@ const AddComment = ({ id }) => {
 					placeholder='Your comment...'
 				/>
 				<div className='my-2 flex justify-end'>
-					{createCommentMutation.isLoading ? (
-						<Spinner />
-					) : (
+					<QueryWrapper
+						isLoading={createCommentMutation.isLoading}
+						error={createCommentMutation.error}
+						errorText='There was an error adding the comment.'
+					>
 						<Button onClick={submitComment} size='small' text='Add Comment' />
-					)}
+					</QueryWrapper>
 				</div>
 			</Modal>
 		</>

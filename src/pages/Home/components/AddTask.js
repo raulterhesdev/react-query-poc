@@ -8,11 +8,10 @@ import Input from "../../../components/Input/Input";
 import { Select, Option } from "../../../components/Select/Select";
 import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
-import Spinner from "../../../components/Spinner/Spinner";
-import Message from "../../../components/Message/Message";
 import Textarea from "../../../components/Textarea/Textarea";
 
 import { severities } from "../../../utils/constants";
+import QueryWrapper from "../../../components/QueryWrapper/QueryWrapper";
 
 const AddTask = () => {
 	const projectQuery = useProjects();
@@ -57,42 +56,50 @@ const AddTask = () => {
 					onChange={(e) => setDescription(e.currentTarget.value)}
 					cols={30}
 				/>
-				{projectQuery.isLoading ? (
-					<Spinner />
-				) : projectQuery.error ? (
-					<Message type='error'>There was an error...</Message>
-				) : (
-					<Select
-						label='Project'
-						value={project}
-						onChange={(e) => setProject(e.target.value)}
-					>
-						<Option value='' />
-						{projectQuery.data.map((project) => (
-							<Option key={project.id} value={project.id} text={project.name} />
-						))}
-					</Select>
-				)}
-				{usersQuery.isLoading ? (
-					<Spinner />
-				) : usersQuery.error ? (
-					<Message type='Error'>There was an error...</Message>
-				) : (
-					<Select
-						label='Owner'
-						value={user}
-						onChange={(e) => setUser(e.target.value)}
-					>
-						<Option value='' />
-						{usersQuery.data.map((project) => (
-							<Option
-								key={project.uid}
-								value={project.uid}
-								text={project.name}
-							/>
-						))}
-					</Select>
-				)}
+				<QueryWrapper
+					isLoading={projectQuery.isLoading}
+					error={projectQuery.error}
+					errorText='There was an error getting the projects.'
+				>
+					{projectQuery.data ? (
+						<Select
+							label='Project'
+							value={project}
+							onChange={(e) => setProject(e.target.value)}
+						>
+							<Option value='' />
+							{projectQuery.data.map((project) => (
+								<Option
+									key={project.id}
+									value={project.id}
+									text={project.name}
+								/>
+							))}
+						</Select>
+					) : null}
+				</QueryWrapper>
+				<QueryWrapper
+					isLoading={usersQuery.isLoading}
+					error={usersQuery.error}
+					errorText='There was an error getting the users.'
+				>
+					{usersQuery.data ? (
+						<Select
+							label='Owner'
+							value={user}
+							onChange={(e) => setUser(e.target.value)}
+						>
+							<Option value='' />
+							{usersQuery.data.map((project) => (
+								<Option
+									key={project.uid}
+									value={project.uid}
+									text={project.name}
+								/>
+							))}
+						</Select>
+					) : null}
+				</QueryWrapper>
 				<Select
 					label='Severity'
 					value={severity}
@@ -104,13 +111,13 @@ const AddTask = () => {
 					))}
 				</Select>
 				<div className='my-4 flex justify-center'>
-					{addTaskMutation.isLoading ? (
-						<Spinner />
-					) : (
-						<>
-							<Button onClick={submitTask} text='Add Task' />
-						</>
-					)}
+					<QueryWrapper
+						isLoading={addTaskMutation.isLoading}
+						error={addTaskMutation.error}
+						errorText='There was an error adding the task.'
+					>
+						<Button onClick={submitTask} text='Add Task' />
+					</QueryWrapper>
 				</div>
 			</Modal>
 		</div>

@@ -6,9 +6,8 @@ import {
 } from "../../hooks/queries/taskQueries";
 import { useUsers } from "../../hooks/queries/userQueries";
 
-import Spinner from "../../components/Spinner/Spinner";
-import Message from "../../components/Message/Message";
 import Link from "../../components/Link/Link";
+import QueryWrapper from "../../components/QueryWrapper/QueryWrapper";
 
 const ProjectTasks = ({ projectId }) => {
 	const { isLoading, data, error } = useProjectTasks(projectId);
@@ -28,14 +27,12 @@ const ProjectTasks = ({ projectId }) => {
 				<p className={tableStyle}>Severity</p>
 				<p className={tableStyle}>State</p>
 			</div>
-			{isLoading ? (
-				<Spinner />
-			) : error ? (
-				<Message type='error'>
-					There was an error fetching the project tasks.
-				</Message>
-			) : (
-				data?.map((task) => {
+			<QueryWrapper
+				isLoading={isLoading}
+				error={error}
+				errorText='There was an error fetching the project data.'
+			>
+				{data?.map((task) => {
 					const userData = usersQuery.data?.find(
 						(user) => user.uid === task.userId
 					);
@@ -56,8 +53,8 @@ const ProjectTasks = ({ projectId }) => {
 							<p className={tableStyle}>{task.state}</p>
 						</div>
 					);
-				})
-			)}
+				})}
+			</QueryWrapper>
 		</div>
 	);
 };

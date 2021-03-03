@@ -5,8 +5,7 @@ import { useUsers } from "../../hooks/queries/userQueries";
 import { useProjects } from "../../hooks/queries/projectQueries";
 
 import Link from "../../components/Link/Link";
-import Spinner from "../../components/Spinner/Spinner";
-import Message from "../../components/Message/Message";
+import QueryWrapper from "../../components/QueryWrapper/QueryWrapper";
 import Layout from "../../components/Layout/Layout";
 
 const Tasks = () => {
@@ -28,15 +27,13 @@ const Tasks = () => {
 					<p className={tableStyle}>Severity</p>
 					<p className={tableStyle}>State</p>
 				</div>
-				{isLoading ? (
-					<Spinner />
-				) : error ? (
-					<Message type='error'>
-						There was an error fetching the project data.
-					</Message>
-				) : (
+				<QueryWrapper
+					isLoading={isLoading}
+					errorText='There was an error getting the tasks'
+					error={error}
+				>
 					<div>
-						{data.map((task) => {
+						{data?.map((task) => {
 							const userData = usersQuery.data?.find(
 								(user) => user.uid === task.userId
 							);
@@ -67,7 +64,7 @@ const Tasks = () => {
 							);
 						})}
 					</div>
-				)}
+				</QueryWrapper>
 			</div>
 		</Layout>
 	);

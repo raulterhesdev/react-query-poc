@@ -12,12 +12,11 @@ import { useAuth } from "../../context/auth-context";
 
 import AddComment from "./Components/AddComment";
 import Layout from "../../components/Layout/Layout";
-import Spinner from "../../components/Spinner/Spinner";
-import Message from "../../components/Message/Message";
 import { Select, Option } from "../../components/Select/Select";
 import Textarea from "../../components/Textarea/Textarea";
 import Button from "../../components/Button/Button";
 import Link from "../../components/Link/Link";
+import QueryWrapper from "../../components/QueryWrapper/QueryWrapper";
 
 import { severities } from "../../utils/constants";
 
@@ -76,12 +75,18 @@ const Task = () => {
 							<p className='p-1'>{element.text}</p>
 						</div>
 						{user.user.uid === element.uid ? (
-							<Button
-								onClick={() => submitDeleteComment(element.id)}
-								size='small'
-								type='danger'
-								text='x'
-							/>
+							<QueryWrapper
+								isLoading={deleteCommentMutation.isLoading}
+								errorText='There was an error deleting the task.'
+								error={deleteCommentMutation.error}
+							>
+								<Button
+									onClick={() => submitDeleteComment(element.id)}
+									size='small'
+									type='danger'
+									text='x'
+								/>
+							</QueryWrapper>
 						) : null}
 					</div>
 				);
@@ -96,81 +101,71 @@ const Task = () => {
 	return (
 		<Layout pageTitle={data?.name}>
 			<div className='px-6 py-4 flex flex-col justify-center items-center'>
-				{isLoading ? (
-					<Spinner />
-				) : error ? (
-					<Message type='error'>
-						There was an error fetching the project... please refresh the page
-					</Message>
-				) : (
-					<>
-						<Textarea
-							label='Description:'
-							value={description}
-							onChange={(e) => setDescription(e.target.value)}
-						/>
-						<Select
-							value={state}
-							onChange={(e) => setState(e.target.value)}
-							label='State'
-						>
-							<Option value='' />
-							<Option value='Initialized' text='Initialized' />
-							<Option value='In Progress' text='In Progress' />
-							<Option value='Closed' text='Closed' />
-						</Select>
-						<Select
-							value={severity}
-							onChange={(e) => setSeverity(e.target.value)}
-							label='Severity'
-						>
-							<Option value='' />
-							{severities.map((s) => (
-								<Option key={s} value={s} text={s} />
-							))}
-						</Select>
-						{canUpdateDelete ? (
-							<div className='my-4'>
-								{updateTaskMutation.isLoading ? (
-									<Spinner />
-								) : (
-									<>
-										{updateTaskMutation.isError ? (
-											<Message type='error'>
-												There was an error updating the project data.
-											</Message>
-										) : null}
+				<QueryWrapper
+					isLoading={isLoading}
+					error={error}
+					errorText='There was an error getting the task data.'
+				>
+					{data ? (
+						<>
+							<Textarea
+								label='Description:'
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+							/>
+							<Select
+								value={state}
+								onChange={(e) => setState(e.target.value)}
+								label='State'
+							>
+								<Option value='' />
+								<Option value='Initialized' text='Initialized' />
+								<Option value='In Progress' text='In Progress' />
+								<Option value='Closed' text='Closed' />
+							</Select>
+							<Select
+								value={severity}
+								onChange={(e) => setSeverity(e.target.value)}
+								label='Severity'
+							>
+								<Option value='' />
+								{severities.map((s) => (
+									<Option key={s} value={s} text={s} />
+								))}
+							</Select>
+							{canUpdateDelete ? (
+								<div className='my-4'>
+									<QueryWrapper
+										isLoading={updateTaskMutation.isLoading}
+										errorText='There was an error updating the task.'
+										error={updateTaskMutation.error}
+									>
 										<Button onClick={submitUpdate} text='Update Task' />
-									</>
-								)}
-							</div>
-						) : null}
+									</QueryWrapper>
+								</div>
+							) : null}
 
-						<AddComment id={data.id} />
-						<h2 className='p-2  text-yellow-900'>Comments:</h2>
-						{comments}
-						{canUpdateDelete ? (
-							<div className='my-4'>
-								{deleteTaskMutation.isLoading ? (
-									<Spinner />
-								) : (
-									<>
-										{deleteTaskMutation.isError ? (
-											<Message type='error'>
-												There was an error deleting the project.
-											</Message>
-										) : null}
+							<AddComment id={data.id} />
+							<h2 className='p-2  text-yellow-900'>Comments:</h2>
+							{comments}
+							{canUpdateDelete ? (
+								<div className='my-4'>
+									<QueryWrapper
+										isLoading={deleteTaskMutation.isLoading}
+										errorText='There was an error deleting the task.'
+										error={deleteTaskMutation.error}
+									>
 										<Button
 											type='danger'
 											text='Delete Task'
 											onClick={submitDelete}
 										/>
-									</>
-								)}
-							</div>
-						) : null}
-					</>
-				)}
+									</QueryWrapper>
+								</div>
+							) : null}
+						</>
+					) : null}
+				</QueryWrapper>
 			</div>
 		</Layout>
 	);
