@@ -108,7 +108,7 @@ const Project = (props) => {
 						<Textarea
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
-							label='Description'
+							label='Description:'
 						/>
 
 						<Select

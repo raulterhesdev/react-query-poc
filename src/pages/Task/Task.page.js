@@ -102,7 +102,7 @@ const Task = () => {
 				) : (
 					<>
 						<Textarea
-							label='Description'
+							label='Description:'
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
 						/>
@@ -159,7 +159,7 @@ const Task = () => {
 										) : null}
 										<Button
 											type='danger'
-											text='Delete Project'
+											text='Delete Task'
 											onClick={submitDelete}
 										/>
 									</>
