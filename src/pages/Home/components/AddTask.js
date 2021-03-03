@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCreateTask } from "../../../hooks/mutations/taskMutations";
 import { useProjects } from "../../../hooks/queries/projectQueries";
 import { useUsers } from "../../../hooks/queries/userQueries";
@@ -32,6 +32,11 @@ const AddTask = () => {
 			severity,
 		});
 	};
+
+	useEffect(() => {
+		//after the mutation finishes wait 200 ms and then close the modal
+		if (addTaskMutation.isSuccess) setTimeout(() => setModalOpen(false), 200);
+	}, [addTaskMutation.isSuccess]);
 
 	return (
 		<div className='p-2'>
@@ -96,7 +101,13 @@ const AddTask = () => {
 					))}
 				</Select>
 				<div className='my-4 flex justify-center'>
-					<Button onClick={submitTask} text='Add Task' />
+					{addTaskMutation.isLoading ? (
+						<Spinner />
+					) : (
+						<>
+							<Button onClick={submitTask} text='Add Task' />
+						</>
+					)}
 				</div>
 			</Modal>
 		</div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
 import Input from "../../../components/Input/Input";
@@ -17,6 +17,13 @@ const AddProject = () => {
 	const submitProject = () => {
 		createProjectMutation.mutate({ name, description, category });
 	};
+
+	useEffect(() => {
+		//after the mutation finishes wait 200 ms and then close the modal
+		if (createProjectMutation.isSuccess)
+			setTimeout(() => setModalOpen(false), 200);
+	}, [createProjectMutation.isSuccess]);
+
 	return (
 		<div className='p-2'>
 			<Button
@@ -32,7 +39,7 @@ const AddProject = () => {
 					onChange={(e) => setName(e.currentTarget.value)}
 				/>
 				<Textarea
-					label='Description'
+					label='Description:'
 					value={description}
 					onChange={(e) => setDescription(e.currentTarget.value)}
 					cols={30}
