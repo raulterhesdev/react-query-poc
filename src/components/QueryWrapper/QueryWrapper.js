@@ -6,7 +6,9 @@ const QueryWrapper = ({ isLoading, error, errorText, children }) => {
 	return (
 		<>
 			{isLoading ? (
-				<Spinner />
+				<div className='flex justify-center'>
+					<Spinner />
+				</div>
 			) : error ? (
 				<Message type='error'>{errorText}</Message>
 			) : (
