@@ -37,7 +37,7 @@ const Header = () => {
 	return (
 		<div className='bg-yellow-500 px-4 py-6 fixed top-0 left-0 h-full shadow'>
 			<Navigation userId={userData?.uid} />
-			<div className='bg-white rounded mt-8'>
+			<div className='bg-white rounded mt-8 w-32 flex flex-col justify-center items-center'>
 				<p className='text-yellow-900 text-center'>Actions:</p>
 				<AddTask />
 				{userData?.role === "TL" ? <AddProject /> : null}
