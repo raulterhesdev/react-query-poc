@@ -48,47 +48,49 @@ const Project = () => {
 					errorText='There was an error fetching the project data.'
 				>
 					{data ? (
-						<>
-							<Textarea
-								value={description}
-								onChange={(e) => setDescription(e.target.value)}
-								label='Description:'
-							/>
+						<div className='flex'>
+							<div className='flex flex-col items-center mr-8'>
+								<Textarea
+									value={description}
+									onChange={(e) => setDescription(e.target.value)}
+									label='Description:'
+								/>
 
-							<Select
-								label='Category'
-								value={category}
-								onChange={(e) => setCategory(e.target.value)}
-							>
-								<Option value='' />
-								{categories.map((c) => (
-									<Option key={c} value={c} text={c} />
-								))}
-							</Select>
-							<div className='my-4'>
-								<QueryWrapper
-									isLoading={updateProjectMutation.isLoading}
-									error={updateProjectMutation.error}
-									errorText='There was an error updating the project data.'
+								<Select
+									label='Category'
+									value={category}
+									onChange={(e) => setCategory(e.target.value)}
 								>
-									<Button onClick={submitUpdate} text='Update Project' />
-								</QueryWrapper>
+									<Option value='' />
+									{categories.map((c) => (
+										<Option key={c} value={c} text={c} />
+									))}
+								</Select>
+								<div className='my-4'>
+									<QueryWrapper
+										isLoading={updateProjectMutation.isLoading}
+										error={updateProjectMutation.error}
+										errorText='There was an error updating the project data.'
+									>
+										<Button onClick={submitUpdate} text='Update Project' />
+									</QueryWrapper>
+								</div>
+								<div className='mb-4'>
+									<QueryWrapper
+										isLoading={deleteProjectMutation.isLoading}
+										error={deleteProjectMutation.error}
+										errorText='There was an error deleting the project.'
+									>
+										<Button
+											type='danger'
+											text='Delete Project'
+											onClick={submitDelete}
+										/>
+									</QueryWrapper>
+								</div>
 							</div>
 							<ProjectTasks projectId={data.id} />
-							<div className='my-4'>
-								<QueryWrapper
-									isLoading={deleteProjectMutation.isLoading}
-									error={deleteProjectMutation.error}
-									errorText='There was an error deleting the project.'
-								>
-									<Button
-										type='danger'
-										text='Delete Project'
-										onClick={submitDelete}
-									/>
-								</QueryWrapper>
-							</div>
-						</>
+						</div>
 					) : null}
 				</QueryWrapper>
 			</div>

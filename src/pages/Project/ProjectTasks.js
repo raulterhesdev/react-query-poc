@@ -23,9 +23,6 @@ const ProjectTasks = ({ projectId }) => {
 
 	return (
 		<div className='bg-white'>
-			<h2 className='text-center text-xl bg-yellow-500 p-3 text-white'>
-				Tasks:
-			</h2>
 			<QueryWrapper
 				isLoading={isLoading}
 				error={error}

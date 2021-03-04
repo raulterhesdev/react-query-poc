@@ -107,63 +107,69 @@ const Task = () => {
 					errorText='There was an error getting the task data.'
 				>
 					{data ? (
-						<>
-							<Textarea
-								label='Description:'
-								value={description}
-								onChange={(e) => setDescription(e.target.value)}
-							/>
-							<Select
-								value={state}
-								onChange={(e) => setState(e.target.value)}
-								label='State'
-							>
-								<Option value='' />
-								<Option value='Initialized' text='Initialized' />
-								<Option value='In Progress' text='In Progress' />
-								<Option value='Closed' text='Closed' />
-							</Select>
-							<Select
-								value={severity}
-								onChange={(e) => setSeverity(e.target.value)}
-								label='Severity'
-							>
-								<Option value='' />
-								{severities.map((s) => (
-									<Option key={s} value={s} text={s} />
-								))}
-							</Select>
-							{canUpdateDelete ? (
-								<div className='my-4'>
-									<QueryWrapper
-										isLoading={updateTaskMutation.isLoading}
-										errorText='There was an error updating the task.'
-										error={updateTaskMutation.error}
-									>
-										<Button onClick={submitUpdate} text='Update Task' />
-									</QueryWrapper>
-								</div>
-							) : null}
+						<div className='flex'>
+							<div className='flex flex-col items-center mr-8'>
+								<Textarea
+									label='Description:'
+									value={description}
+									onChange={(e) => setDescription(e.target.value)}
+								/>
+								<Select
+									value={state}
+									onChange={(e) => setState(e.target.value)}
+									label='State'
+								>
+									<Option value='' />
+									<Option value='Initialized' text='Initialized' />
+									<Option value='In Progress' text='In Progress' />
+									<Option value='Closed' text='Closed' />
+								</Select>
+								<Select
+									value={severity}
+									onChange={(e) => setSeverity(e.target.value)}
+									label='Severity'
+								>
+									<Option value='' />
+									{severities.map((s) => (
+										<Option key={s} value={s} text={s} />
+									))}
+								</Select>
+								{canUpdateDelete ? (
+									<>
+										<div className='my-4'>
+											<QueryWrapper
+												isLoading={updateTaskMutation.isLoading}
+												errorText='There was an error updating the task.'
+												error={updateTaskMutation.error}
+											>
+												<Button onClick={submitUpdate} text='Update Task' />
+											</QueryWrapper>
+										</div>
+										<div className='mb-4'>
+											<QueryWrapper
+												isLoading={deleteTaskMutation.isLoading}
+												errorText='There was an error deleting the task.'
+												error={deleteTaskMutation.error}
+											>
+												<Button
+													type='danger'
+													text='Delete Task'
+													onClick={submitDelete}
+												/>
+											</QueryWrapper>
+										</div>
+									</>
+								) : null}
+							</div>
 
-							<AddComment id={data.id} />
-							<h2 className='p-2  text-yellow-900'>Comments:</h2>
-							{comments}
-							{canUpdateDelete ? (
+							<div className='flex flex-col items-center ml-8'>
 								<div className='my-4'>
-									<QueryWrapper
-										isLoading={deleteTaskMutation.isLoading}
-										errorText='There was an error deleting the task.'
-										error={deleteTaskMutation.error}
-									>
-										<Button
-											type='danger'
-											text='Delete Task'
-											onClick={submitDelete}
-										/>
-									</QueryWrapper>
+									<AddComment id={data.id} />
 								</div>
-							) : null}
-						</>
+								<h2 className='p-2  text-yellow-900'>Comments:</h2>
+								{comments}
+							</div>
+						</div>
 					) : null}
 				</QueryWrapper>
 			</div>
