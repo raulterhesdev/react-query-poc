@@ -25,7 +25,7 @@ const Account = () => {
 
 	return (
 		<Layout pageTitle='Your Account'>
-			<div className='flex flex-col justify-center items-center w-full mt-12'>
+			<div className='flex flex-col justify-center items-center w-96 mx-auto mt-12'>
 				<QueryWrapper
 					isLoading={isLoading}
 					error={error}

@@ -10,14 +10,14 @@ const Input = ({
 	placeholder,
 }) => {
 	return (
-		<div className='flex items-center justify-between w-96 my-1'>
+		<div className='flex flex-col w-full my-1'>
 			<label htmlFor={name || label} className='p-2  text-yellow-900'>
-				{label}
+				{label}:
 			</label>
 			<input
 				className={`border-gray-100 border-2 p-2 rounded w-72 ${
 					!readOnly ? "focus:border-yellow-300 " : "text-gray-400"
-				} outline-none`}
+				} outline-none w-full`}
 				value={value}
 				type={type || "text"}
 				onChange={onChange}
