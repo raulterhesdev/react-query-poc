@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const Modal = ({ children, isOpen, closeModal }) => {
 	return (
 		<div
-			className={`p-4 shadow rounded border-2 border-yellow-500 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 scale  opacity-${
+			className={`py-6 px-10 shadow rounded border-2 border-yellow-500 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 scale  opacity-${
 				isOpen ? "100" : "0"
 			} scale-${
 				isOpen ? "100" : "0"
