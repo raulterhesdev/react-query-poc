@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Table = ({ additionalClasses, children }) => {
+export const Table = ({ children }) => {
 	return (
 		<table className={`max-w-screen-xl mx-auto my-4 rounded shadow`}>
 			{children}
@@ -8,7 +8,7 @@ export const Table = ({ additionalClasses, children }) => {
 	);
 };
 
-export const TableHeadRow = ({ additionalClasses, children, numberOfCols }) => {
+export const TableHeadRow = ({ children, numberOfCols }) => {
 	return (
 		<tr
 			className={` grid grid-cols-${numberOfCols} border-b-2 border-gray-100`}
@@ -18,7 +18,7 @@ export const TableHeadRow = ({ additionalClasses, children, numberOfCols }) => {
 	);
 };
 
-export const TableHeadElement = ({ additionalClasses, children }) => {
+export const TableHeadElement = ({ children }) => {
 	return (
 		<thead className='text-center font-bold py-2 px-4 border-r-2 border-gray-50'>
 			{children}
@@ -26,7 +26,7 @@ export const TableHeadElement = ({ additionalClasses, children }) => {
 	);
 };
 
-export const TableRow = ({ additionalClasses, children, numberOfCols }) => {
+export const TableRow = ({ children, numberOfCols }) => {
 	return (
 		<tbody
 			className={` grid grid-cols-${numberOfCols} border-b-2 border-gray-100`}
@@ -36,6 +36,6 @@ export const TableRow = ({ additionalClasses, children, numberOfCols }) => {
 	);
 };
 
-export const TableRowElement = ({ additionalClasses, children }) => {
+export const TableRowElement = ({ children }) => {
 	return <tr className='py-2 px-4 border-r-2 border-gray-50'>{children}</tr>;
 };
