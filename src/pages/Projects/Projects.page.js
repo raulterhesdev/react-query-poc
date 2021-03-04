@@ -40,7 +40,7 @@ const Project = ({ project }) => {
 
 const Projects = () => {
 	const { data, isLoading, error } = useProjects();
-	console.log(data);
+
 	return (
 		<Layout pageTitle='All Projects'>
 			<QueryWrapper
