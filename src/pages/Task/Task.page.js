@@ -4,19 +4,17 @@ import { useHistory, useParams } from "react-router-dom";
 import {
 	useDeleteTask,
 	useUpdateTask,
-	useDeleteComment,
 } from "../../hooks/mutations/taskMutations";
 import { useTask } from "../../hooks/queries/taskQueries";
 import { useLoggedUser, useUsers } from "../../hooks/queries/userQueries";
-import { useAuth } from "../../context/auth-context";
 
 import AddComment from "./Components/AddComment";
 import Layout from "../../components/Layout/Layout";
 import { Select, Option } from "../../components/Select/Select";
 import Textarea from "../../components/Textarea/Textarea";
 import Button from "../../components/Button/Button";
-import Link from "../../components/Link/Link";
 import QueryWrapper from "../../components/QueryWrapper/QueryWrapper";
+import Comment from "./Components/Comment";
 
 import { severities } from "../../utils/constants";
 
@@ -28,8 +26,7 @@ const Task = () => {
 	const usersQuery = useUsers();
 	const deleteTaskMutation = useDeleteTask();
 	const updateTaskMutation = useUpdateTask();
-	const deleteCommentMutation = useDeleteComment();
-	const { user } = useAuth();
+
 	const [state, setState] = useState("");
 	const [severity, setSeverity] = useState("");
 	const [description, setDescription] = useState("");
@@ -49,10 +46,6 @@ const Task = () => {
 		history.push(`/project/${data.projectId}`);
 	};
 
-	const submitDeleteComment = (commentId) => {
-		deleteCommentMutation.mutate({ commentId, taskId: params.taskId });
-	};
-
 	const comments = [];
 
 	if (!isLoading && !error && !usersQuery.isLoading) {
@@ -63,32 +56,12 @@ const Task = () => {
 					(user) => user.uid === element.uid
 				);
 				comments.push(
-					<div
+					<Comment
 						key={element.id}
-						className='flex w-96 justify-between items-center rounded shadow px-4 py-2'
-					>
-						<div>
-							<p className='p-1 pb-0'>
-								<Link to={`/user/${userData?.uid}`}>{userData?.name}</Link>
-							</p>
-							<p className='px-1 text-sm text-gray-400'>{element.createdAt}</p>
-							<p className='p-1'>{element.text}</p>
-						</div>
-						{user.user.uid === element.uid ? (
-							<QueryWrapper
-								isLoading={deleteCommentMutation.isLoading}
-								errorText='There was an error deleting the task.'
-								error={deleteCommentMutation.error}
-							>
-								<Button
-									onClick={() => submitDeleteComment(element.id)}
-									size='small'
-									type='danger'
-									text='x'
-								/>
-							</QueryWrapper>
-						) : null}
-					</div>
+						userData={userData}
+						comment={element}
+						taskId={params.taskId}
+					/>
 				);
 			}
 		}
