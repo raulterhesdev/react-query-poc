@@ -7,54 +7,58 @@ import { usePrefetchProjectTasks } from "../../hooks/queries/taskQueries";
 import Link from "../../components/Link/Link";
 import Layout from "../../components/Layout/Layout";
 import QueryWrapper from "../../components/QueryWrapper/QueryWrapper";
+import {
+	TableHeadElement,
+	TableHeadRow,
+	TableRow,
+	TableRowElement,
+	Table,
+} from "../../components/Table/Table";
 
-const ProjectCard = ({ project }) => {
+const Project = ({ project }) => {
 	const { id, name, category, ownerUid } = project;
 	const userQuery = useUser(ownerUid);
 	const [prefetchTasks] = usePrefetchProjectTasks();
 	return (
-		<div
-			key={id}
-			className='flex flex-col  text-center shadow  m-3 rounded overflow-hidden w-56 bg-white'
-		>
-			<p className='bg-yellow-500 text-white py-2 px-4'>{name}</p>
-			<p className=' py-1 px-4'>{category}</p>
-			<p className=' text-yellow-600'>
+		<TableRow numberOfCols={3}>
+			<TableRowElement>
+				<Link to={`/projects/${id}`} onMouseEnter={() => prefetchTasks(id)}>
+					{name}
+				</Link>
+			</TableRowElement>
+			<TableRowElement>
 				{userQuery.isLoading ? (
 					"..."
 				) : (
 					<Link to={`/user/${userQuery.data.uid}`}>{userQuery.data.name}</Link>
 				)}
-			</p>
-			<Link
-				to={`/projects/${id}`}
-				className='text-right py-2 px-4'
-				onMouseEnter={() => {
-					prefetchTasks(id);
-				}}
-			>
-				More
-			</Link>
-		</div>
+			</TableRowElement>
+			<TableRowElement>{category}</TableRowElement>
+		</TableRow>
 	);
 };
 
 const Projects = () => {
 	const { data, isLoading, error } = useProjects();
-
+	console.log(data);
 	return (
 		<Layout pageTitle='All Projects'>
-			<div className='px-6 py-4 flex flex-wrap justify-center'>
-				<QueryWrapper
-					isLoading={isLoading}
-					errorText='There was an error fetching the projects.'
-					error={error}
-				>
+			<QueryWrapper
+				isLoading={isLoading}
+				errorText='There was an error fetching the projects.'
+				error={error}
+			>
+				<Table>
+					<TableHeadRow numberOfCols={3}>
+						<TableHeadElement>Name</TableHeadElement>
+						<TableHeadElement>Owner</TableHeadElement>
+						<TableHeadElement>Category</TableHeadElement>
+					</TableHeadRow>
 					{data?.map((project) => (
-						<ProjectCard key={project.id} project={project} />
+						<Project key={project.id} project={project} />
 					))}
-				</QueryWrapper>
-			</div>
+				</Table>
+			</QueryWrapper>
 		</Layout>
 	);
 };
