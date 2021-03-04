@@ -2,7 +2,7 @@ import React from "react";
 
 const Textarea = ({ value, onChange, label, name, placeholder }) => {
 	return (
-		<div className='flex justify-center flex-col items-center my-1'>
+		<div className='flex justify-center flex-col  my-1'>
 			{label ? (
 				<label htmlFor={name || label} className='p-2  text-yellow-900'>
 					{label}

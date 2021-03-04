@@ -2,12 +2,12 @@ import React from "react";
 
 export const Select = ({ children, value, onChange, label }) => {
 	return (
-		<div className='flex justify-center flex-col items-center my-1'>
+		<div className='flex justify-center flex-col w-full my-1'>
 			<label className='p-2  text-yellow-900'>{label}:</label>
 			<select
 				value={value}
 				onChange={onChange}
-				className={`border-gray-100 border-2 p-2 rounded w-56 focus:border-yellow-300  outline-none`}
+				className={`border-gray-100 border-2 p-2 rounded w-56 focus:border-yellow-300  outline-none w-full`}
 			>
 				{children}
 			</select>
