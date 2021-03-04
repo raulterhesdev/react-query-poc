@@ -6,7 +6,11 @@ import {
 	useUpdateTask,
 } from "../../hooks/mutations/taskMutations";
 import { useTask } from "../../hooks/queries/taskQueries";
-import { useLoggedUser, useUsers } from "../../hooks/queries/userQueries";
+import {
+	useLoggedUser,
+	useUsers,
+	useUser,
+} from "../../hooks/queries/userQueries";
 
 import AddComment from "./Components/AddComment";
 import Layout from "../../components/Layout/Layout";
@@ -15,8 +19,21 @@ import Textarea from "../../components/Textarea/Textarea";
 import Button from "../../components/Button/Button";
 import QueryWrapper from "../../components/QueryWrapper/QueryWrapper";
 import Comment from "./Components/Comment";
+import Link from "../../components/Link/Link";
 
 import { severities } from "../../utils/constants";
+
+const PersonData = ({ uid, text }) => {
+	const { data } = useUser(uid);
+	return (
+		<div className='w-full p-2'>
+			<p className='text-yellow-900'>{text}</p>
+			<p>
+				<Link to={`/user/${data?.uid}`}>{data?.name || "..."}</Link>
+			</p>
+		</div>
+	);
+};
 
 const Task = () => {
 	const params = useParams();
@@ -71,6 +88,7 @@ const Task = () => {
 		userQuery.data?.uid === data?.creatorUid ||
 		userQuery.data?.uid === data?.userId;
 
+	console.log(data);
 	return (
 		<Layout pageTitle={data?.name}>
 			<div className='px-6 py-4 flex flex-col justify-center items-center'>
@@ -82,6 +100,8 @@ const Task = () => {
 					{data ? (
 						<div className='flex'>
 							<div className='flex flex-col items-center mr-8'>
+								<PersonData text='Owner' uid={data.userId} />
+								<PersonData text='Creator' uid={data.creatorUid} />
 								<Textarea
 									label='Description:'
 									value={description}
@@ -107,6 +127,12 @@ const Task = () => {
 										<Option key={s} value={s} text={s} />
 									))}
 								</Select>
+								<p className='w-full text-yellow-900 px-2 py-1 mt-2'>
+									Created at: {data.createdAt}
+								</p>
+								<p className='w-full text-yellow-900 px-2 py-1'>
+									Last Updated: {data.updatedAt}
+								</p>
 								{canUpdateDelete ? (
 									<>
 										<div className='my-4'>
