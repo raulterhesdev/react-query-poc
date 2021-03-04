@@ -23,10 +23,9 @@ const NavItem = ({ to, text, exact }) => {
 const Navigation = ({ userId }) => {
 	return (
 		<ul>
-			<NavItem to='/' text='Home' exact />
+			<NavItem to='/account' text='Account' />
 			<NavItem to='/projects' text='Projects' />
 			<NavItem to='/tasks' text='Tasks' />
-			<NavItem to='/account' text='Account' />
 			<NavItem to={`/user/${userId}`} text='Your Work' />
 		</ul>
 	);
