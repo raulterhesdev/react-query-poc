@@ -2,6 +2,7 @@ import React from "react";
 import AddTask from "../../pages/Home/components/AddTask";
 import AddProject from "../../pages/Home/components/AddProject";
 import { useLoggedUser } from "../../hooks/queries/userQueries";
+import { useAuth } from "../../context/auth-context";
 
 import { NavLink } from "react-router-dom";
 
@@ -33,6 +34,7 @@ const Navigation = ({ userId }) => {
 
 const Header = () => {
 	const { data: userData } = useLoggedUser();
+	const { logout } = useAuth();
 	return (
 		<div className='bg-yellow-500 px-4 py-6 fixed top-0 left-0 h-full shadow'>
 			<Navigation userId={userData?.uid} />
@@ -41,6 +43,9 @@ const Header = () => {
 				<AddTask />
 				{userData?.role === "TL" ? <AddProject /> : null}
 			</div>
+			<button className='text-white px-5 mt-4' onClick={logout}>
+				Logout
+			</button>
 		</div>
 	);
 };
