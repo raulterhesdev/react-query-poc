@@ -9,8 +9,8 @@ import Message from "../../components/Message/Message";
 
 const Login = () => {
 	const { login, register, isLoading, error } = useAuth();
-	const [email, setEmail] = useState("test1@test.com");
-	const [password, setPassword] = useState("Test1234");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [isRegister, setIsRegister] = useState(false);
 
 	return (

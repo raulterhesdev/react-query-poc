@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 ReactDOM.render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<ReactQueryDevtools />
+			<ReactQueryDevtools initialIsOpen={false} />
 			<BrowserRouter>
 				<AuthProvider>
 					<App />
