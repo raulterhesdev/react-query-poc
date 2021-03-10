@@ -48,25 +48,27 @@ const User = () => {
 						const projectData = projectQuery.data?.find(
 							(project) => project.id === task.projectId
 						);
-						return (
-							<TableRow numberOfCols={4}>
-								<TableRowElement>
-									<Link to={`/projects/${projectData?.id}`}>
-										{projectData?.name}
-									</Link>
-								</TableRowElement>
-								<TableRowElement>
-									<Link
-										to={`/tasks/${task.id}`}
-										onMouseEnter={() => prefetchTask(task.id)}
-									>
-										{task.name}
-									</Link>
-								</TableRowElement>
-								<TableRowElement>{task.severity}</TableRowElement>
-								<TableRowElement>{task.state}</TableRowElement>
-							</TableRow>
-						);
+						if (task.userId === params.userId) {
+							return (
+								<TableRow numberOfCols={4}>
+									<TableRowElement>
+										<Link to={`/projects/${projectData?.id}`}>
+											{projectData?.name}
+										</Link>
+									</TableRowElement>
+									<TableRowElement>
+										<Link
+											to={`/tasks/${task.id}`}
+											onMouseEnter={() => prefetchTask(task.id)}
+										>
+											{task.name}
+										</Link>
+									</TableRowElement>
+									<TableRowElement>{task.severity}</TableRowElement>
+									<TableRowElement>{task.state}</TableRowElement>
+								</TableRow>
+							);
+						}
 					})}
 				</Table>
 			</QueryWrapper>
