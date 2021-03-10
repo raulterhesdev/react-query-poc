@@ -10,6 +10,7 @@ export const useUpdateUserData = () => {
 	return useMutation(updateUser, {
 		onSuccess: (data) => {
 			queryClient.setQueryData(["users", data.uid], data);
+			queryClient.invalidateQueries("users");
 		},
 	});
 };
