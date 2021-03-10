@@ -174,6 +174,7 @@ export const updateTask = (data) => {
 		severity,
 		createdAt,
 		state,
+		comments,
 	} = data;
 	const updatedAt = getCurrentDate();
 	const dataAllTasks = { id, name, userId, state, projectId, severity };
@@ -188,6 +189,7 @@ export const updateTask = (data) => {
 		state,
 		createdAt,
 		updatedAt,
+		comments: comments || [],
 	};
 
 	const updates = {};
