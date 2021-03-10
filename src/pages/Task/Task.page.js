@@ -106,11 +106,13 @@ const Task = () => {
 									label='Description:'
 									value={description}
 									onChange={(e) => setDescription(e.target.value)}
+									disabled={!canUpdateDelete}
 								/>
 								<Select
 									value={state}
 									onChange={(e) => setState(e.target.value)}
 									label='State'
+									disabled={!canUpdateDelete}
 								>
 									<Option value='' />
 									<Option value='Initialized' text='Initialized' />
@@ -121,6 +123,7 @@ const Task = () => {
 									value={severity}
 									onChange={(e) => setSeverity(e.target.value)}
 									label='Severity'
+									disabled={!canUpdateDelete}
 								>
 									<Option value='' />
 									{severities.map((s) => (
@@ -161,7 +164,7 @@ const Task = () => {
 								) : null}
 							</div>
 
-							<div className='flex flex-col items-center ml-8'>
+							<div className='flex flex-col items-center ml-8 w-96'>
 								<div className='my-4'>
 									<AddComment id={data.id} />
 								</div>

@@ -72,12 +72,14 @@ const Project = () => {
 									value={description}
 									onChange={(e) => setDescription(e.target.value)}
 									label='Description:'
+									disabled={!canUpdateDelete}
 								/>
 
 								<Select
 									label='Category'
 									value={category}
 									onChange={(e) => setCategory(e.target.value)}
+									disabled={!canUpdateDelete}
 								>
 									<Option value='' />
 									{categories.map((c) => (
