@@ -60,7 +60,7 @@ const Task = () => {
 
 	const submitDelete = () => {
 		deleteTaskMutation.mutate({ projectId: data.projectId, taskId: data.id });
-		history.push(`/project/${data.projectId}`);
+		history.push(`/projects/${data.projectId}`);
 	};
 
 	const comments = [];
