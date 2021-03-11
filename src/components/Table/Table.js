@@ -9,10 +9,9 @@ export const Table = ({ children }) => {
 };
 
 export const TableHeadRow = ({ children, numberOfCols }) => {
+	const columns = `grid-cols-${numberOfCols}`;
 	return (
-		<tr
-			className={` grid grid-cols-${numberOfCols} border-b-2 border-gray-100`}
-		>
+		<tr className={` grid ${columns} border-b-2 border-gray-100`}>
 			{children}
 		</tr>
 	);
@@ -27,10 +26,9 @@ export const TableHeadElement = ({ children }) => {
 };
 
 export const TableRow = ({ children, numberOfCols }) => {
+	const columns = `grid-cols-${numberOfCols}`;
 	return (
-		<tbody
-			className={` grid grid-cols-${numberOfCols} border-b-2 border-gray-100`}
-		>
+		<tbody className={` grid  ${columns} border-b-2 border-gray-100`}>
 			{children}
 		</tbody>
 	);
